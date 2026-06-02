@@ -1,6 +1,6 @@
 # The system reads this file after the turn ends.
-action: submit
+action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Run full scaled token-pruning reproduction and validation for core_claim: regenerate benchmark, run paper-family baselines plus FSR, evaluate scores.json, and validate."
+notes: "Fixed fresh-clone packaging paths and made download.sh use the tracked synthetic benchmark unless regeneration is needed."
