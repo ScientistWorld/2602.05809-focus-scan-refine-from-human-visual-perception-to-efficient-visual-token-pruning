@@ -1,5 +1,5 @@
 # The system reads this file after the turn ends.
-action: submit
+action: done
 gpus: 0
 test: false
-notes: "Run evaluate_train.sh and evaluate_test.sh against existing checkpoint outputs; populate split scores."
+notes: "Deterministic 50/50 token-pruning split; 28 train metrics, 28 test metrics; FSR primary score 0.880215 train vs 0.875822 test, with comparable gaps across baselines; no nulls or method-set mismatches. Caveat: token-budget metrics are constant for shipped methods because all use the same budget, but remain constraints for future methods."
