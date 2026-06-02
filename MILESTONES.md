@@ -39,4 +39,4 @@
 - Final scope remains a scaled token-level gym for the paper's core pruning claim, not a full downstream VLM benchmark reproduction.
 
 ## Stop Justification
-- Final verification complete. The workspace is ready for gym use at `core_claim` with the documented scaled-benchmark limitation.
+- Completed at milestone `core_claim`.
