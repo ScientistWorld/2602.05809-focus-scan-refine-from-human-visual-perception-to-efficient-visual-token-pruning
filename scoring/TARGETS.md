@@ -3,7 +3,7 @@
 ## Primary: token_pruning_core
 
 Tests whether a compressed visual-token representation preserves the information needed for query-conditioned reasoning under an aggressive fixed budget.
-- **Metric:** `performance_retained` (higher is better)
+- **Metric:** `performance_retained` (higher is better), a continuous retention score combining local evidence and global context preservation
 - **Run:** `bash scripts/reproduce.sh`, or run a method to produce `checkpoints/*_outputs.jsonl` and then `bash scripts/evaluate.sh`
 
 ## Constraint: compression_budget

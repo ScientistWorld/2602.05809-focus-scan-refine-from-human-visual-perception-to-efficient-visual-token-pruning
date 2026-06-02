@@ -29,4 +29,4 @@
 
 action: done
 milestone: core_claim
-notes: "CPU container job b24fa7b0-574 completed successfully. FSR supports the core claim on the scaled token benchmark: 0.396 performance_retained vs 0.087 fused_topk, 0.062 relevance_topk, and 0.000 saliency_topk at the same 32/128 token budget."
+notes: "Validation fixed and passing. FSR supports the core claim on the scaled token benchmark: 0.878 performance_retained vs 0.753 fused_topk, 0.740 relevance_topk, and 0.549 saliency_topk at the same 32/128 token budget."

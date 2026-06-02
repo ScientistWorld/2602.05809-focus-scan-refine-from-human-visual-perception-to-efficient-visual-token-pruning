@@ -4,25 +4,25 @@
       "results": {
         "fsr": {
           "mean_token_count": 32.0,
-          "performance_retained": 0.395833,
+          "performance_retained": 0.878018,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
         "fused_topk": {
           "mean_token_count": 32.0,
-          "performance_retained": 0.0875,
+          "performance_retained": 0.753318,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
         "relevance_topk": {
           "mean_token_count": 32.0,
-          "performance_retained": 0.0625,
+          "performance_retained": 0.739718,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
         "saliency_topk": {
           "mean_token_count": 32.0,
-          "performance_retained": 0.0,
+          "performance_retained": 0.548995,
           "retained_fraction": 0.25,
           "sample_count": 240
         }

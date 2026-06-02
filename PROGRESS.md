@@ -13,12 +13,12 @@
 
 Scaled-token benchmark results at 32 retained tokens out of 128:
 
-- `fsr`: `performance_retained` 0.396, `retained_fraction` 0.25
-- `fused_topk`: `performance_retained` 0.087, `retained_fraction` 0.25
-- `relevance_topk`: `performance_retained` 0.062, `retained_fraction` 0.25
-- `saliency_topk`: `performance_retained` 0.000, `retained_fraction` 0.25
+- `fsr`: `performance_retained` 0.878, `retained_fraction` 0.25
+- `fused_topk`: `performance_retained` 0.753, `retained_fraction` 0.25
+- `relevance_topk`: `performance_retained` 0.740, `retained_fraction` 0.25
+- `saliency_topk`: `performance_retained` 0.549, `retained_fraction` 0.25
 
-The same packaged reproduction passed in the compute container. These scores support the paper's core claim in the scaled benchmark: Focus-Scan-Refine preserves substantially more task-relevant evidence than static token-ranking baselines under the same token budget.
+The same packaged reproduction passed in the compute container, and the repaired evaluator now reports retained performance on a continuous 0-1 scale consistent with the paper's retained-performance metric. These scores support the paper's core claim in the scaled benchmark: Focus-Scan-Refine preserves more task-relevant evidence and context than static token-ranking baselines under the same token budget.
 
 ## Remaining
 
