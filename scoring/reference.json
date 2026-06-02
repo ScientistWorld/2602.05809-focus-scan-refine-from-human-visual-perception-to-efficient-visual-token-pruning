@@ -1,8 +1,8 @@
 {
   "experiments": {
-    "token_pruning_core": {
-      "description": "Core aggressive visual-token pruning claim. Paper reference values are from the LLaVA-1.5-7B 64-retained-token setting in Table 1; evidence/context component metrics are gym-only diagnostics with no paper reference values.",
-      "weight": 1.0,
+    "token_pruning_64_tokens": {
+      "description": "Aggressive visual-token pruning claim. Paper reference values are from the LLaVA-1.5-7B 64-retained-token setting in Table 1; evidence/context component metrics are gym-only diagnostics with no paper reference values.",
+      "weight": 0.5,
       "primary_metric": "performance_retained",
       "metrics": {
         "performance_retained": {
@@ -37,60 +37,109 @@
         }
       },
       "results": {
-        "fastv": {
-          "type": "baseline",
-          "performance_retained": 0.72,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "fastv": {"type": "baseline", "performance_retained": 0.72, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "sparsevlm": {"type": "baseline", "performance_retained": 0.86, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "dart": {"type": "baseline", "performance_retained": 0.908, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "visionzip": {"type": "baseline", "performance_retained": 0.927, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "divprune": {"type": "baseline", "performance_retained": 0.933, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "holov": {"type": "baseline", "performance_retained": 0.929, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "vispruner": {"type": "baseline", "performance_retained": 0.935, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "cdpruner": {"type": "baseline", "performance_retained": 0.957, "mean_token_count": 64, "retained_fraction": 0.111111},
+        "fsr": {"type": "proposed", "performance_retained": 0.961, "mean_token_count": 64, "retained_fraction": 0.111111}
+      }
+    },
+    "token_pruning_128_tokens": {
+      "description": "Moderate visual-token pruning claim. Paper reference values are from the LLaVA-1.5-7B 128-retained-token setting in Table 1; evidence/context component metrics are gym-only diagnostics with no paper reference values.",
+      "weight": 0.3,
+      "primary_metric": "performance_retained",
+      "metrics": {
+        "performance_retained": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Headline retained-performance score combining query evidence and global-context preservation under the compressed-token budget."
         },
-        "sparsevlm": {
-          "type": "baseline",
-          "performance_retained": 0.86,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "evidence_retained": {
+          "higher_is_better": true,
+          "coefficient": 0.25,
+          "description": "Mean query-evidence similarity retained by the compressed tokens."
         },
-        "dart": {
-          "type": "baseline",
-          "performance_retained": 0.908,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "context_retained": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Mean global-context similarity retained by the compressed tokens."
         },
-        "visionzip": {
-          "type": "baseline",
-          "performance_retained": 0.927,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "mean_token_count": {
+          "higher_is_better": false,
+          "coefficient": -0.3,
+          "description": "Mean number of retained visual tokens, used as a machine-independent compression-cost constraint."
         },
-        "divprune": {
-          "type": "baseline",
-          "performance_retained": 0.933,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "retained_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Fraction of the original visual tokens retained."
         },
-        "holov": {
-          "type": "baseline",
-          "performance_retained": 0.929,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "vispruner": {
-          "type": "baseline",
-          "performance_retained": 0.935,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "cdpruner": {
-          "type": "baseline",
-          "performance_retained": 0.957,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "fsr": {
-          "type": "proposed",
-          "performance_retained": 0.961,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "sample_count": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Number of evaluated samples; included for auditability and not used for ranking."
         }
+      },
+      "results": {
+        "fastv": {"type": "baseline", "performance_retained": 0.896, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "sparsevlm": {"type": "baseline", "performance_retained": 0.956, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "dart": {"type": "baseline", "performance_retained": 0.952, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "visionzip": {"type": "baseline", "performance_retained": 0.962, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "divprune": {"type": "baseline", "performance_retained": 0.962, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "holov": {"type": "baseline", "performance_retained": 0.961, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "vispruner": {"type": "baseline", "performance_retained": 0.967, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "cdpruner": {"type": "baseline", "performance_retained": 0.976, "mean_token_count": 128, "retained_fraction": 0.222222},
+        "fsr": {"type": "proposed", "performance_retained": 0.983, "mean_token_count": 128, "retained_fraction": 0.222222}
+      }
+    },
+    "token_pruning_192_tokens": {
+      "description": "Light visual-token pruning claim. Paper reference values are from the LLaVA-1.5-7B 192-retained-token setting in Table 1; evidence/context component metrics are gym-only diagnostics with no paper reference values.",
+      "weight": 0.2,
+      "primary_metric": "performance_retained",
+      "metrics": {
+        "performance_retained": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Headline retained-performance score combining query evidence and global-context preservation under the compressed-token budget."
+        },
+        "evidence_retained": {
+          "higher_is_better": true,
+          "coefficient": 0.25,
+          "description": "Mean query-evidence similarity retained by the compressed tokens."
+        },
+        "context_retained": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Mean global-context similarity retained by the compressed tokens."
+        },
+        "mean_token_count": {
+          "higher_is_better": false,
+          "coefficient": -0.3,
+          "description": "Mean number of retained visual tokens, used as a machine-independent compression-cost constraint."
+        },
+        "retained_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Fraction of the original visual tokens retained."
+        },
+        "sample_count": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Number of evaluated samples; included for auditability and not used for ranking."
+        }
+      },
+      "results": {
+        "fastv": {"type": "baseline", "performance_retained": 0.88, "mean_token_count": 192, "retained_fraction": 0.333333},
+        "sparsevlm": {"type": "baseline", "performance_retained": 0.952, "mean_token_count": 192, "retained_fraction": 0.333333},
+        "dart": {"type": "baseline", "performance_retained": 0.978, "mean_token_count": 192, "retained_fraction": 0.333333},
+        "holov": {"type": "baseline", "performance_retained": 0.965, "mean_token_count": 192, "retained_fraction": 0.333333},
+        "vispruner": {"type": "baseline", "performance_retained": 0.982, "mean_token_count": 192, "retained_fraction": 0.333333},
+        "cdpruner": {"type": "baseline", "performance_retained": 0.985, "mean_token_count": 192, "retained_fraction": 0.333333},
+        "fsr": {"type": "proposed", "performance_retained": 0.991, "mean_token_count": 192, "retained_fraction": 0.333333}
       }
     }
   }

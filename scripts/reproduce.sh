@@ -22,7 +22,16 @@ cd "${REPO_ROOT}"
 
 bash scripts/download.sh
 mkdir -p checkpoints
-rm -f checkpoints/*_outputs.jsonl
-bash scripts/baseline.sh --budget 32 --methods fastv divprune cdpruner
-bash scripts/method.sh --budget 32
+rm -rf checkpoints/budget16 checkpoints/budget32 checkpoints/budget48
+mkdir -p checkpoints/budget16 checkpoints/budget32 checkpoints/budget48
+
+bash scripts/baseline.sh --budget 16 --output-dir checkpoints/budget16 --methods fastv divprune cdpruner
+bash scripts/method.sh --budget 16 --output checkpoints/budget16/fsr_outputs.jsonl
+
+bash scripts/baseline.sh --budget 32 --output-dir checkpoints/budget32 --methods fastv divprune cdpruner
+bash scripts/method.sh --budget 32 --output checkpoints/budget32/fsr_outputs.jsonl
+
+bash scripts/baseline.sh --budget 48 --output-dir checkpoints/budget48 --methods fastv divprune cdpruner
+bash scripts/method.sh --budget 48 --output checkpoints/budget48/fsr_outputs.jsonl
+
 bash scripts/evaluate.sh
