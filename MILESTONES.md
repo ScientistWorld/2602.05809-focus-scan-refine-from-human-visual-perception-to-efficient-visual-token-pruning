@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -14,5 +14,10 @@
 - The actual FSR Focus, Scan, and Refine computation executed end-to-end and wrote scored artifacts.
 - Local validation with `python validate.py --compare` passed.
 
+### [2026-06-02 07:40] - core_claim
+- CPU container job `b24fa7b0-574` completed successfully with exit code 0.
+- The packaged reproduction ran `scripts/reproduce.sh` and `python validate.py --compare` in the compute environment.
+- FSR retained 0.396 task performance at the same 32/128 token budget where static baselines retained 0.087 (`fused_topk`), 0.062 (`relevance_topk`), and 0.000 (`saliency_topk`), supporting the paper's core claim on the scaled token-pruning benchmark.
+
 ## Stop Justification
-- Not stopped.
+- Stopping at `core_claim`: the reusable environment, method implementation, baselines, evaluation, scoring metadata, and container packaging are complete for the minimum reproduction. Full VLM benchmark reproduction remains out of scope for this scaled run because the official implementation is not yet released and full benchmark inference would require substantially larger model and dataset execution.

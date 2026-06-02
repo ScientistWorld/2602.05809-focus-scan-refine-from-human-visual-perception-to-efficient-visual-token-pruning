@@ -7,28 +7,29 @@
 - Implemented FSR from the paper equations in `method/fsr.py`.
 - Added a deterministic token-pruning benchmark, simple baselines, method runner, and evaluation pipeline.
 - Local end-to-end validation passes with `bash scripts/reproduce.sh && python validate.py --compare`.
+- CPU container job `b24fa7b0-574` completed successfully with exit code 0 using the packaged scripts.
 
 ## Results
 
-Local scaled-token benchmark results at 32 retained tokens out of 128:
+Scaled-token benchmark results at 32 retained tokens out of 128:
 
 - `fsr`: `performance_retained` 0.396, `retained_fraction` 0.25
 - `fused_topk`: `performance_retained` 0.087, `retained_fraction` 0.25
 - `relevance_topk`: `performance_retained` 0.062, `retained_fraction` 0.25
 - `saliency_topk`: `performance_retained` 0.000, `retained_fraction` 0.25
 
-No cluster job results yet. The next submitted job runs the same script inside the compute container.
+The same packaged reproduction passed in the compute container. These scores support the paper's core claim in the scaled benchmark: Focus-Scan-Refine preserves substantially more task-relevant evidence than static token-ranking baselines under the same token budget.
 
 ## Remaining
 
-- Run the packaged reproduction in the compute container.
-- If the container job reproduces the local FSR-vs-baseline gap, update milestone to `core_claim`.
-- If the scaled benchmark is too easy or too hard, adjust the generator while preserving the same token-pruning problem.
+- No remaining work is required for the minimum `core_claim` reproduction.
+- Higher milestones would require scaling to real VLM benchmarks and additional paper settings such as different retained-token budgets, larger token grids, and video/VQA datasets.
 
 ## Issues
 
 - The paper's official repository does not yet provide implementation code.
 - Full VLM benchmark reproduction would require large VLM inference over multiple public benchmarks; the current reproduction uses a scaled token-level benchmark that preserves the paper's algorithmic computation.
+- The completed job's scheduler log paths were not readable from this workspace, but the job reported exit code 0 and produced validated `scoring/scores.json` artifacts in the workspace.
 
 ## Deviations from Paper
 
