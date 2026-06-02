@@ -10,7 +10,7 @@ Use the same retained-token budget as the reproduction script unless explicitly 
 
 ## Evaluation
 
-Submit artifacts in the same `checkpoints/<budget>/*_outputs.jsonl` format and score them with `scripts/evaluate.sh`. The default budget directories are `checkpoints/budget16`, `checkpoints/budget32`, and `checkpoints/budget48`. Do not modify `eval/` or `scoring/reference.json` to improve a method's score.
+Submit artifacts in the same `checkpoints/*_outputs.jsonl` format and score them with `scripts/evaluate.sh`. Do not modify `eval/` or `scoring/reference.json` to improve a method's score.
 
 ## Compliance Checklist
 

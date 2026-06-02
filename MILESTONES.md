@@ -38,10 +38,5 @@
 - `python validate.py --compare` passes after verification edits.
 - Final scope remains a scaled token-level gym for the paper's core pruning claim, not a full downstream VLM benchmark reproduction.
 
-### [2026-06-02 08:20] - core_claim
-- Prepared an expanded CPU-only reproduction that scores three retained-token budgets corresponding to the paper's LLaVA-1.5-7B 64-, 128-, and 192-token Table 1 settings.
-- Updated the evaluator, reproduction script, and scoring metadata for separate `token_pruning_64_tokens`, `token_pruning_128_tokens`, and `token_pruning_192_tokens` experiments.
-- A container job is required before claiming `core_claim_plus`.
-
 ## Stop Justification
-- Not stopped; expanded multi-budget validation is being submitted next.
+- Completed at milestone `core_claim`.

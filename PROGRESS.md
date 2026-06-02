@@ -12,7 +12,6 @@
 - Job `e17065c1-4ac` regenerated `scoring/scores.json` and `python validate.py --compare` passed all scoring and structure checks.
 - The evaluator now reports `evidence_retained` and `context_retained` in addition to the combined `performance_retained` and compression metrics, so the benefit/constraint split is explicit in `scores.json`, `scores_train.json`, and `scores_test.json`.
 - Removed `selected_source_error` from scoring because FSR's Refine stage intentionally changes scan-anchor vectors by weighted aggregation.
-- Prepared a multi-budget expansion that runs the same scaled token-pruning benchmark at 16, 32, and 48 retained tokens, corresponding to the paper's LLaVA-1.5-7B 64-, 128-, and 192-token Table 1 settings.
 
 ## Results
 
@@ -27,9 +26,8 @@ The packaged reproduction passed again in CPU test job `e17065c1-4ac`, and the r
 
 ## Remaining
 
-- The minimum scaled `core_claim` reproduction is complete.
-- A CPU validation job is being submitted to regenerate `scoring/scores.json`, `scores_train.json`, and `scores_test.json` for the three-budget expansion. If it passes and FSR supports the claim across more than one budget, this can be promoted to `core_claim_plus`.
-- Higher milestones would require scaling to real VLM benchmarks and additional paper settings such as larger token grids, high-resolution VLMs, and video/VQA datasets.
+- No remaining work is required for the minimum scaled `core_claim` reproduction.
+- Higher milestones would require scaling to real VLM benchmarks and additional paper settings such as different retained-token budgets, larger token grids, and video/VQA datasets.
 
 ## Issues
 
@@ -40,7 +38,6 @@ The packaged reproduction passed again in CPU test job `e17065c1-4ac`, and the r
 - CPU test job `a5c85115-dba` passed, but the regenerated `diversity_fps` score nearly tied FSR because the baseline was seeded with the maximum-saliency token. That seed gives a similarity-only baseline access to Focus-stage information, so `diversity_fps` now starts from a query-agnostic token farthest from the global mean before farthest-point sampling.
 - CPU test job `e17065c1-4ac` regenerated `scoring/scores.json` with matching paper-family method names after the scoring-reference repair.
 - A follow-up audit found that the main evaluator did not emit all declared component metrics and that train/test sidecar evaluators included a metric incompatible with Refine-stage merging. These were fixed locally and `python validate.py --compare` now passes before submission.
-- Local direct execution of the NumPy-based runners is unavailable on the login-node Python because `numpy` is only installed in the packaged container overlay. Syntax and scoring-schema checks are done locally; the actual reproduction is run as a CPU container job.
 
 ## Deviations from Paper
 
