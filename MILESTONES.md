@@ -29,4 +29,4 @@
 - The evaluator reports the compression constraint metrics `mean_token_count` 32.0 and `retained_fraction` 0.25 for every reproduced method.
 
 ## Stop Justification
-- Completed the minimum usable reproduction at milestone `core_claim`. Further progress would require full VLM benchmark inference over the paper's LLaVA/Qwen/video settings.
+- Completed at milestone `core_claim`.
