@@ -4,7 +4,7 @@
       "results": {
         "diversity_fps": {
           "mean_token_count": 32.0,
-          "performance_retained": 0.87781,
+          "performance_retained": 0.8762,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
