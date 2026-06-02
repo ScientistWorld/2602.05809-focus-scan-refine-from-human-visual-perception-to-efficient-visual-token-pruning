@@ -9,6 +9,16 @@
           "higher_is_better": true,
           "coefficient": 1.0
         },
+        "evidence_retained": {
+          "higher_is_better": true,
+          "coefficient": 0.25,
+          "description": "Mean query-evidence similarity retained by the compressed tokens; this catches methods that preserve global context while losing the local evidence needed for the answer."
+        },
+        "context_retained": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Mean global-context similarity retained by the compressed tokens; this catches relevance-only shortcuts that keep salient evidence but drop low-saliency contextual information."
+        },
         "mean_token_count": {
           "higher_is_better": false,
           "coefficient": -0.3
