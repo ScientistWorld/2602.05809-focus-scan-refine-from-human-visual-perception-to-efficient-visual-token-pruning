@@ -2,6 +2,12 @@
   "experiments": {
     "token_pruning_core": {
       "results": {
+        "diversity_fps": {
+          "mean_token_count": 32.0,
+          "performance_retained": 0.87781,
+          "retained_fraction": 0.25,
+          "sample_count": 240
+        },
         "fsr": {
           "mean_token_count": 32.0,
           "performance_retained": 0.878018,
