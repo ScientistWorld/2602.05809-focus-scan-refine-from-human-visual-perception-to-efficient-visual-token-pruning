@@ -3,24 +3,32 @@
     "token_pruning_core": {
       "results": {
         "cdpruner": {
+          "context_retained": 0.536232,
+          "evidence_retained": 0.970405,
           "mean_token_count": 32.0,
           "performance_retained": 0.753318,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
         "divprune": {
+          "context_retained": 0.784445,
+          "evidence_retained": 0.967955,
           "mean_token_count": 32.0,
           "performance_retained": 0.8762,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
         "fastv": {
+          "context_retained": 0.128079,
+          "evidence_retained": 0.970405,
           "mean_token_count": 32.0,
           "performance_retained": 0.548995,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
         "fsr": {
+          "context_retained": 0.785632,
+          "evidence_retained": 0.970405,
           "mean_token_count": 32.0,
           "performance_retained": 0.878018,
           "retained_fraction": 0.25,

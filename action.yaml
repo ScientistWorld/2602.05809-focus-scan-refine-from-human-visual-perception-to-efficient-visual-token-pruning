@@ -1,6 +1,6 @@
 # The system reads this file after the turn ends.
-action: done
+action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim
-notes: "Fixed fresh-clone packaging paths and made download.sh use the tracked synthetic benchmark unless regeneration is needed."
+notes: "CPU validation job after evaluator/schema repair: regenerate main/train/test scores and run validate.py --compare in the packaged container."

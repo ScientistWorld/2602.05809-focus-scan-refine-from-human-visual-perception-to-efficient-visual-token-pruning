@@ -30,6 +30,8 @@ def load_jsonl(path: Path) -> dict[str, dict]:
 def score_file(data: dict[str, dict], output_path: Path) -> dict:
     outputs = load_jsonl(output_path)
     retained_scores = []
+    evidence_scores = []
+    context_scores = []
     token_counts = []
 
     for sample_id, sample in data.items():
@@ -42,12 +44,16 @@ def score_file(data: dict[str, dict], output_path: Path) -> dict:
 
         evidence = max(_dot(token, query) for token in compressed)
         context_ok = max(_dot(token, context) for token in compressed)
+        evidence = max(0.0, min(1.0, evidence))
+        context_ok = max(0.0, min(1.0, context_ok))
 
         # The paper reports retained downstream performance as a continuous
         # fraction, not as a strict all-or-nothing success rate. This scaled
         # benchmark mirrors that by averaging local evidence retention with
         # complementary context retention on the same [0, 1] similarity scale.
-        retained_scores.append(max(0.0, min(1.0, 0.5 * (evidence + context_ok))))
+        evidence_scores.append(evidence)
+        context_scores.append(context_ok)
+        retained_scores.append(0.5 * (evidence + context_ok))
         token_counts.append(len(pred["compressed_tokens"]))
 
     n = len(data)
@@ -55,6 +61,8 @@ def score_file(data: dict[str, dict], output_path: Path) -> dict:
     full_tokens = len(next(iter(data.values()))["tokens"])
     return {
         "performance_retained": round(sum(retained_scores) / len(retained_scores), 6),
+        "evidence_retained": round(sum(evidence_scores) / len(evidence_scores), 6),
+        "context_retained": round(sum(context_scores) / len(context_scores), 6),
         "mean_token_count": round(mean_tokens, 6),
         "retained_fraction": round(mean_tokens / full_tokens, 6),
         "sample_count": n,

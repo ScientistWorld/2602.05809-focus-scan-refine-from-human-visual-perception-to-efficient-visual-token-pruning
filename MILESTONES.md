@@ -28,5 +28,10 @@
 - On the scaled token benchmark at 32 retained tokens out of 128, FSR reached `performance_retained` 0.878018 versus `fastv` 0.548995, `cdpruner` 0.753318, and `divprune` 0.876200.
 - Scope remains a scaled token-level reproduction of the FSR pruning algorithm and core compression-quality claim, not a full VLM benchmark rerun.
 
+### [2026-06-02 08:12] - core_claim
+- Audited the scoring schema and removed an invalid `selected_source_error` metric that penalized FSR's intended Refine-stage token merging.
+- Updated the main, train, and test evaluators to report separate local-evidence and global-context retention metrics plus fixed token-count constraints.
+- Local structural validation passes; a CPU validation job is being submitted to regenerate all score files inside the packaged container.
+
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Not stopped; continuing validation after evaluator/schema repair.

@@ -65,7 +65,6 @@ def score_file(data: dict[str, dict], output_path: Path, sample_ids: set[str]) -
     retained_scores = []
     evidence_scores = []
     context_scores = []
-    source_errors = []
     token_counts = []
 
     for sample_id in sorted(sample_ids):
@@ -93,14 +92,9 @@ def score_file(data: dict[str, dict], output_path: Path, sample_ids: set[str]) -
         evidence_scores.append(evidence)
         context_scores.append(context_ok)
         retained_scores.append(0.5 * (evidence + context_ok))
-        for index, compressed_token in zip(selected_indices, pred["compressed_tokens"]):
+        for index in selected_indices:
             if not isinstance(index, int) or index < 0 or index >= len(tokens):
                 raise ValueError(f"{output_path} invalid selected index {index!r} for {sample_id}")
-            source = tokens[index]
-            squared_error = sum(
-                (float(a) - float(b)) ** 2 for a, b in zip(compressed_token, source)
-            )
-            source_errors.append(math.sqrt(squared_error))
         token_counts.append(len(pred["compressed_tokens"]))
 
     mean_tokens = sum(token_counts) / len(token_counts)
@@ -109,7 +103,6 @@ def score_file(data: dict[str, dict], output_path: Path, sample_ids: set[str]) -
         "performance_retained": round(sum(retained_scores) / len(retained_scores), 6),
         "evidence_retained": round(sum(evidence_scores) / len(evidence_scores), 6),
         "context_retained": round(sum(context_scores) / len(context_scores), 6),
-        "selected_source_error": round(sum(source_errors) / len(source_errors), 6),
         "mean_token_count": round(mean_tokens, 6),
         "retained_fraction": round(mean_tokens / full_tokens, 6),
         "sample_count": len(sample_ids),

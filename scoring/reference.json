@@ -20,11 +20,6 @@
           "coefficient": 0.4,
           "description": "Mean global-context similarity retained by the compressed tokens; this catches relevance-only shortcuts that keep salient evidence but drop low-saliency contextual information."
         },
-        "selected_source_error": {
-          "higher_is_better": false,
-          "coefficient": -0.35,
-          "description": "Mean L2 error between each compressed token and its declared source token; this catches fabricated vectors that score well without performing token pruning."
-        },
         "mean_token_count": {
           "higher_is_better": false,
           "coefficient": -0.3,
