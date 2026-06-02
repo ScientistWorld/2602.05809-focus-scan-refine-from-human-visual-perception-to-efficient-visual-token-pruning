@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
+action: submit
 gpus: 0
-test: false
-milestone: core_claim
-notes: "FSR method, baselines, reusable evaluator, scoring docs, and packaged scripts are complete. Prior compute-container validation passed and scores support the core claim on the scaled token benchmark."
+test: true
+milestone: method_runs
+notes: "Continuation audit found and fixed a baseline coverage gap. Run the full CPU reproduction and validation to regenerate scores including diversity_fps before restoring core_claim."

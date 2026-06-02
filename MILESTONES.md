@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Progress Log
 
@@ -13,5 +13,10 @@
 - FSR achieved `performance_retained` 0.878 at 32/128 retained tokens, ahead of fused top-k 0.753, relevance top-k 0.740, and saliency top-k 0.549 under the same token budget.
 - Evaluation includes the compression constraint metrics `mean_token_count` and `retained_fraction`.
 
+### [2026-06-02 07:58] - method_runs
+- Continuation audit reset the active milestone to `method_runs`.
+- Found that `scripts/reproduce.sh` omitted the `diversity_fps` baseline even though it appears in `scoring/reference.json`.
+- Fixed the reproduction script and submitted a CPU test job to regenerate outputs and validate the comparison.
+
 ## Stop Justification
-- Completed the minimum usable reproduction at milestone `core_claim`. Higher milestones would require full VLM benchmark inference over the paper's LLaVA/Qwen/video settings.
+- Pending validation after continuation audit.

@@ -30,6 +30,7 @@ The same packaged reproduction passed in the compute container, and the repaired
 - The paper's official repository does not yet provide implementation code.
 - Full VLM benchmark reproduction would require large VLM inference over multiple public benchmarks; the current reproduction uses a scaled token-level benchmark that preserves the paper's algorithmic computation.
 - The completed job's scheduler log paths were not readable from this workspace, but the job reported exit code 0 and produced validated `scoring/scores.json` artifacts in the workspace.
+- Continuation audit found that the standard reproduction script omitted the `diversity_fps` baseline listed in `scoring/reference.json`; this has been fixed and a CPU test validation job has been prepared.
 
 ## Deviations from Paper
 
