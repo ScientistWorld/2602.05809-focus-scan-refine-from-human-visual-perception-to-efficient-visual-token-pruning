@@ -1,5 +1,6 @@
 # The system reads this file after the turn ends.
-action: done
+action: submit
 gpus: 0
 test: false
-notes: "Deterministic 50/50 token-pruning split; 28 train metrics, 28 test metrics; FSR primary score 0.880215 train vs 0.875822 test, with comparable gaps across baselines; no nulls or method-set mismatches. Caveat: token-budget metrics are constant for shipped methods because all use the same budget, but remain constraints for future methods."
+milestone: core_claim
+notes: "Run full scaled token-pruning reproduction and validation for core_claim: regenerate benchmark, run paper-family baselines plus FSR, evaluate scores.json, and validate."
