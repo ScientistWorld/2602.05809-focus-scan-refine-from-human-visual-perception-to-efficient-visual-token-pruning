@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
-test: true
-milestone: method_runs
-notes: "Fix diversity_fps so the similarity-only baseline is query/saliency agnostic, then rerun full CPU reproduction and validation before restoring core_claim."
+test: false
+milestone: core_claim
+notes: "CPU validation job b296916c-3ab passed after the diversity baseline fix. FSR is the best reproduced method under the fixed token budget and all structural checks passed."
