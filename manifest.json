@@ -1,0 +1,127 @@
+{
+  "paper": {
+    "arxiv_id": "2602.05809",
+    "title": "Focus-Scan-Refine: From Human Visual Perception to Efficient Visual Token Pruning",
+    "date": "",
+    "topics": [
+      "paper-type-metric-method",
+      "domain-cv",
+      "area-vision-models",
+      "category-efficiency",
+      "method-token-pruning",
+      "secondary-domain-multimodal",
+      "secondary-area-visual-language",
+      "secondary-category-inference",
+      "secondary-method-compression",
+      "selection-category-efficiency"
+    ]
+  },
+  "reproduction": {
+    "milestone": "core_claim",
+    "status": "done",
+    "error": null,
+    "scaffold": "codex",
+    "model": "gpt-5.5",
+    "profile": "gpt-5.5-medium",
+    "effort": "medium",
+    "gpu_hours_used": 0.0,
+    "current_iteration_gpu_budget": 30,
+    "current_iteration_gpu_hours_used": 0.0,
+    "total_gpu_hours_used": 0.0,
+    "current_iteration_cpu_hours_used": 0.013,
+    "total_cpu_hours_used": 0.013,
+    "gpu_budget": 30,
+    "duration_sec": 824.8,
+    "cost_usd": null,
+    "input_tokens": 5905670,
+    "output_tokens": 29302,
+    "cached_input_tokens": 5583616,
+    "cache_creation_tokens": null,
+    "reasoning_tokens": 0,
+    "total_input_tokens": 5905670,
+    "num_turns": 73,
+    "duration_api_ms": null,
+    "num_runs": 1,
+    "iteration_count": 0,
+    "workflow": "standard",
+    "workflow_step": 0,
+    "total_gpu_jobs": 1,
+    "time_breakdown": {
+      "working": 622.8255097866058,
+      "building": 0.07499980926513672,
+      "installing": 0.7399554252624512,
+      "waiting": 49.26417636871338
+    }
+  },
+  "agents": [
+    {
+      "scaffold": "codex",
+      "model": "gpt-5.5",
+      "profile": "gpt-5.5-medium",
+      "effort": "medium",
+      "role": "reproducer",
+      "is_iteration": false,
+      "iteration": 1,
+      "workflow": "standard",
+      "workflow_step": 0,
+      "started_at": 1780384631.2368584,
+      "finished_at": 1780385456.0215065,
+      "duration_sec": 824.8,
+      "blocked_sec": 0.0,
+      "status": "done",
+      "error": null,
+      "milestone": "core_claim",
+      "gpu_budget": 30,
+      "gpu_hours_used": 0.0,
+      "total_gpu_hours_used": 0.0,
+      "cpu_hours_used": 0.013,
+      "time_breakdown": {
+        "working": 622.8255097866058,
+        "building": 0.07499980926513672,
+        "installing": 0.7399554252624512,
+        "waiting": 49.26417636871338
+      },
+      "cost_usd": null,
+      "input_tokens": 5905670,
+      "output_tokens": 29302,
+      "cached_input_tokens": 5583616,
+      "cache_creation_tokens": null,
+      "reasoning_tokens": 0,
+      "total_input_tokens": 5905670,
+      "num_turns": 73,
+      "duration_api_ms": null,
+      "tool_uses": {
+        "shell": 57,
+        "file_edit": 16
+      },
+      "gpu_jobs": [
+        {
+          "run_id": "b24fa7b0-574",
+          "command": "bash /home/user/scripts/run.sh",
+          "num_gpus": 0,
+          "num_cpus": 1,
+          "resource": "gpu-cpu",
+          "hive_job_id": "5a7a1388",
+          "status": "completed",
+          "returncode": 0,
+          "duration_sec": 45.3,
+          "submitted_at": 1780385261.1019127,
+          "started_at": 1780385264.1306689,
+          "completed_at": 1780385309.4094462
+        }
+      ],
+      "progress_log": "### [2026-06-02 07:17] - none\n- Started reproduction work for FSR.\n- Read the paper markdown and extracted the method, benchmarks, and core reported numbers.\n- Implemented the paper's Focus-Scan-Refine token pruning computation and packaged a first scaled benchmark for job validation.\n\n### [2026-06-02 07:35] - method_runs\n- Ran `scripts/reproduce.sh` locally on the scaled token benchmark.\n- The actual FSR Focus, Scan, and Refine computation executed end-to-end and wrote scored artifacts.\n- Local validation with `python validate.py --compare` passed.\n\n### [2026-06-02 07:40] - core_claim\n- CPU container job `b24fa7b0-574` completed successfully with exit code 0.\n- The packaged reproduction ran `scripts/reproduce.sh` and `python validate.py --compare` in the compute environment.\n- FSR retained 0.396 task performance at the same 32/128 token budget where static baselines retained 0.087 (`fused_topk`), 0.062 (`relevance_topk`), and 0.000 (`saliency_topk`), supporting the paper's core claim on the scaled token-pruning benchmark."
+    }
+  ],
+  "components": {
+    "has_container": true,
+    "has_method_code": true,
+    "has_evaluation": true,
+    "has_download_script": true,
+    "has_reproduce_script": true,
+    "has_method_script": true,
+    "has_baseline": true,
+    "has_reference": true,
+    "has_data": true
+  }
+}
