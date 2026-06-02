@@ -7,7 +7,8 @@
       "metrics": {
         "performance_retained": {
           "higher_is_better": true,
-          "coefficient": 1.0
+          "coefficient": 1.0,
+          "description": "Headline retained-performance score combining query evidence and global-context preservation under the compressed-token budget."
         },
         "evidence_retained": {
           "higher_is_better": true,
@@ -19,17 +20,25 @@
           "coefficient": 0.4,
           "description": "Mean global-context similarity retained by the compressed tokens; this catches relevance-only shortcuts that keep salient evidence but drop low-saliency contextual information."
         },
+        "selected_source_error": {
+          "higher_is_better": false,
+          "coefficient": -0.35,
+          "description": "Mean L2 error between each compressed token and its declared source token; this catches fabricated vectors that score well without performing token pruning."
+        },
         "mean_token_count": {
           "higher_is_better": false,
-          "coefficient": -0.3
+          "coefficient": -0.3,
+          "description": "Mean number of retained visual tokens, used as a machine-independent compression-cost constraint."
         },
         "retained_fraction": {
           "higher_is_better": false,
-          "coefficient": -0.5
+          "coefficient": -0.5,
+          "description": "Fraction of the original visual tokens retained, penalizing methods that improve retention by relaxing the compression budget."
         },
         "sample_count": {
           "higher_is_better": true,
-          "coefficient": 0.0
+          "coefficient": 0.0,
+          "description": "Number of evaluated samples; included for auditability and not used for ranking."
         }
       },
       "results": {
