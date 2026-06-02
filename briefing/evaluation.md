@@ -6,9 +6,9 @@ The primary metric is `performance_retained`: a continuous 0-1 score measuring h
 
 Constraint metrics measure the compression setting: `mean_token_count` and `retained_fraction`. Lower values are better when performance is held fixed.
 
-## Baselines and Targets
+## Reference Setting
 
-The paper reports the core LLaVA-1.5-7B aggressive-compression setting at 64 retained tokens from 576 original visual tokens. At this setting, the unpruned model is the 100% reference, FastV retains 72.0% average performance, CDPruner retains 95.7%, and FSR retains 96.1%.
+The source paper reports the core LLaVA-1.5-7B aggressive-compression setting at 64 retained tokens from 576 original visual tokens. At this setting, the unpruned model is the 100% reference and the best reported compressed systems retain roughly 96% average performance.
 
 ## Evaluation Protocol
 

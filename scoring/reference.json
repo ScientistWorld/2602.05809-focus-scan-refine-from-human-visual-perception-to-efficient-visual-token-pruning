@@ -1,7 +1,7 @@
 {
   "experiments": {
     "token_pruning_core": {
-      "description": "Core aggressive visual-token pruning claim, based on LLaVA-1.5-7B at 64 retained visual tokens from Table 1 and efficiency constraints from Table 7.",
+      "description": "Core aggressive visual-token pruning claim. Paper reference values are from the LLaVA-1.5-7B 64-retained-token setting in Table 1; evidence/context component metrics are gym-only diagnostics with no paper reference values.",
       "weight": 1.0,
       "primary_metric": "performance_retained",
       "metrics": {
@@ -41,64 +41,55 @@
           "type": "baseline",
           "performance_retained": 0.72,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "sparsevlm": {
           "type": "baseline",
           "performance_retained": 0.86,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "dart": {
           "type": "baseline",
           "performance_retained": 0.908,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "visionzip": {
           "type": "baseline",
           "performance_retained": 0.927,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "divprune": {
           "type": "baseline",
           "performance_retained": 0.933,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "holov": {
           "type": "baseline",
           "performance_retained": 0.929,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "vispruner": {
           "type": "baseline",
           "performance_retained": 0.935,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "cdpruner": {
           "type": "baseline",
           "performance_retained": 0.957,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         },
         "fsr": {
           "type": "proposed",
           "performance_retained": 0.961,
           "mean_token_count": 64,
-          "retained_fraction": 0.111111,
-          "sample_count": 0
+          "retained_fraction": 0.111111
         }
       }
     }

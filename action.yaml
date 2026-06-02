@@ -1,6 +1,6 @@
 # The system reads this file after the turn ends.
-action: submit
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "CPU validation job after evaluator/schema repair: regenerate main/train/test scores and run validate.py --compare in the packaged container."
+notes: "Final verification passed after cleaning method-agnostic docs and reference metadata; ready as a scaled token-pruning gym."

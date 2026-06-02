@@ -33,5 +33,10 @@
 - Updated the main, train, and test evaluators to report separate local-evidence and global-context retention metrics plus fixed token-count constraints.
 - Local structural validation passes; a CPU validation job is being submitted to regenerate all score files inside the packaged container.
 
+### [2026-06-02 08:14] - core_claim
+- Final verification found minor method-leakage in method-agnostic documentation and benchmark-generator comments, then removed it.
+- `python validate.py --compare` passes after verification edits.
+- Final scope remains a scaled token-level gym for the paper's core pruning claim, not a full downstream VLM benchmark reproduction.
+
 ## Stop Justification
-- Not stopped; continuing validation after evaluator/schema repair.
+- Final verification complete. The workspace is ready for gym use at `core_claim` with the documented scaled-benchmark limitation.

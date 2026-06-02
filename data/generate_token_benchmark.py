@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a deterministic token-pruning benchmark for FSR reproduction.
+"""Generate a deterministic token-pruning benchmark.
 
 The benchmark stores encoder-like visual token embeddings, a query embedding,
 and a CLS-to-token saliency vector. Labels identify one query-relevant local
@@ -41,8 +41,9 @@ def make_sample(rng: np.random.Generator, sample_id: int, n_tokens: int, dim: in
     tokens[target_idx] = _unit(query + rng.normal(scale=0.045, size=dim))
     saliency[target_idx] = rng.uniform(0.82, 0.98)
 
-    # The context anchor is intentionally low-saliency and low query-relevance.
-    # It is far from the focused evidence, so the paper's scan stage should find it.
+    # The context token is intentionally low-saliency and low query-relevance.
+    # It is far from the local evidence, so query-only or saliency-only policies
+    # should not solve the benchmark by default.
     tokens[context_idx] = _unit(context + rng.normal(scale=0.045, size=dim))
     saliency[context_idx] = rng.uniform(0.001, 0.006)
 
@@ -55,8 +56,8 @@ def make_sample(rng: np.random.Generator, sample_id: int, n_tokens: int, dim: in
         tokens[idx] = _unit(context + rng.normal(scale=0.13, size=dim))
         saliency[idx] = rng.uniform(0.001, 0.008)
 
-    # Add weak query-like clutter. These tokens can distract relevance-only
-    # pruning but should not dominate the fused information mass.
+    # Add weak query-like clutter so retaining only query-nearest tokens is not
+    # sufficient to preserve the full context signal.
     for idx in range(42, min(52, n_tokens)):
         tokens[idx] = _unit(0.45 * query + rng.normal(scale=0.55, size=dim))
         saliency[idx] = rng.uniform(0.001, 0.008)
