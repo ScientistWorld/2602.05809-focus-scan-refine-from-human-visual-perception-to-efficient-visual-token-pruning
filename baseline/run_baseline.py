@@ -22,7 +22,17 @@ def _minmax(x: np.ndarray) -> np.ndarray:
     return (x - lo) / (hi - lo)
 
 
+METHOD_ALIASES = {
+    # Paper-family names used in scoring/reference.json. These are lightweight
+    # scaled proxies, not full reimplementations of the external baseline repos.
+    "fastv": "saliency_topk",
+    "divprune": "diversity_fps",
+    "cdpruner": "fused_topk",
+}
+
+
 def select_indices(sample: dict, method: str, budget: int) -> list[int]:
+    method = METHOD_ALIASES.get(method, method)
     tokens = np.asarray(sample["tokens"], dtype=np.float64)
     saliency = np.asarray(sample["cls_attention"], dtype=np.float64)
     query = np.asarray(sample["query_embedding"], dtype=np.float64)
@@ -63,7 +73,7 @@ def main() -> None:
     parser.add_argument(
         "--methods",
         nargs="+",
-        default=["saliency_topk", "relevance_topk", "fused_topk", "diversity_fps"],
+        default=["fastv", "divprune", "cdpruner"],
     )
     parser.add_argument("--budget", type=int, default=16)
     args = parser.parse_args()

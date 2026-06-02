@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: core_claim
-notes: "CPU validation of the packaged scaled FSR core-claim reproduction after metadata and evaluation-usage cleanup."
+milestone: method_runs
+notes: "CPU reproduction job to regenerate scores after repairing reference method names and baseline artifact names."

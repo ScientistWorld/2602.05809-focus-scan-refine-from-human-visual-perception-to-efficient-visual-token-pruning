@@ -23,30 +23,58 @@
         }
       },
       "results": {
-        "saliency_topk": {
+        "fastv": {
           "type": "baseline",
           "performance_retained": 0.72,
           "mean_token_count": 64,
           "retained_fraction": 0.111111,
           "sample_count": 0
         },
-        "fused_topk": {
+        "sparsevlm": {
           "type": "baseline",
-          "performance_retained": 0.957,
+          "performance_retained": 0.86,
           "mean_token_count": 64,
           "retained_fraction": 0.111111,
           "sample_count": 0
         },
-        "relevance_topk": {
+        "dart": {
+          "type": "baseline",
+          "performance_retained": 0.908,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "visionzip": {
+          "type": "baseline",
+          "performance_retained": 0.927,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "divprune": {
+          "type": "baseline",
+          "performance_retained": 0.933,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "holov": {
+          "type": "baseline",
+          "performance_retained": 0.929,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "vispruner": {
           "type": "baseline",
           "performance_retained": 0.935,
           "mean_token_count": 64,
           "retained_fraction": 0.111111,
           "sample_count": 0
         },
-        "diversity_fps": {
+        "cdpruner": {
           "type": "baseline",
-          "performance_retained": 0.933,
+          "performance_retained": 0.957,
           "mean_token_count": 64,
           "retained_fraction": 0.111111,
           "sample_count": 0

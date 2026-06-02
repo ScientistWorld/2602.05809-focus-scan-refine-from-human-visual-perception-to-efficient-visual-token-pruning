@@ -8,6 +8,7 @@
 - Added a deterministic token-pruning benchmark, simple baselines, method runner, and evaluation pipeline.
 - Local/source audit confirms `method/fsr.py` implements the paper's Focus, Scan, and Refine equations rather than a surrogate model.
 - CPU container jobs `b24fa7b0-574`, `a5c85115-dba`, and `b296916c-3ab` completed successfully with exit code 0 using the packaged scripts.
+- Continuation audit found and fixed a scoring-reference issue: paper numbers are now keyed by the paper's actual baseline names, while the scaled reproduction emits matching paper-family proxy baseline artifacts for validation.
 
 ## Results
 
@@ -33,7 +34,9 @@ The packaged reproduction passed again in CPU test job `b296916c-3ab`, and the r
 - Job logs and result files are readable under `jobs/` and show successful CPU container executions with `python validate.py --compare`.
 - Continuation audit found that the standard reproduction script omitted the `diversity_fps` baseline listed in `scoring/reference.json`; this has been fixed and a CPU test validation job has been prepared.
 - CPU test job `a5c85115-dba` passed, but the regenerated `diversity_fps` score nearly tied FSR because the baseline was seeded with the maximum-saliency token. That seed gives a similarity-only baseline access to Focus-stage information, so `diversity_fps` now starts from a query-agnostic token farthest from the global mean before farthest-point sampling.
+- After the scoring-reference repair, the existing `scoring/scores.json` is stale because it contains old local baseline names. The next CPU job runs `scripts/reproduce.sh` and regenerates matching scores.
 
 ## Deviations from Paper
 
 - The paper evaluates full VLM answer accuracy on LLaVA/Qwen/video benchmarks. This reproduction uses a deterministic token-level benchmark because it is feasible within the environment and isolates the pruning algorithm. The implemented method itself follows the paper's Focus, Scan, and Refine computation.
+- Baseline artifacts named `fastv`, `divprune`, and `cdpruner` are lightweight scaled proxies for the corresponding paper-family pruning baselines, not full upstream baseline implementations.
