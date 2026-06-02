@@ -29,4 +29,4 @@
 - Scope remains a scaled token-level reproduction of the FSR pruning algorithm and core compression-quality claim, not a full VLM benchmark rerun.
 
 ## Stop Justification
-- Completed the minimum scaled `core_claim` reproduction with regenerated scores, validation checks, packaged scripts, and documented deviations from the full paper setting.
+- Completed at milestone `core_claim`.
