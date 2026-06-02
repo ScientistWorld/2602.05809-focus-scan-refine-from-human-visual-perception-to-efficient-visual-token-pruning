@@ -15,8 +15,8 @@
 # This file is read by the system for automated comparison.
 #
 # Example usage:
-#   ./evaluate.sh <method_and_run_name>                             # evaluate with defaults
-#   ./evaluate.sh <method_and_run_name> checkpoints/epoch_10.pt     # evaluate a specific checkpoint
+#   bash scripts/evaluate.sh
+#   bash scripts/evaluate.sh --outputs-dir checkpoints --output scoring/scores.json
 #
 # Called from run.sh after training, or independently.
 

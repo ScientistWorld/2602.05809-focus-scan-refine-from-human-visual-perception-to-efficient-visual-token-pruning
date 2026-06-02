@@ -12,4 +12,4 @@ The paper reports the core LLaVA-1.5-7B aggressive-compression setting at 64 ret
 
 ## Evaluation Protocol
 
-Run each pruning method on the same token benchmark with the same fixed token budget. The method writes compressed-token artifacts under `checkpoints/`; evaluation reads those artifacts, computes retained local-evidence and global-context similarity, and never imports method code. Scores are written to `scoring/scores.json`.
+Run each pruning method on the same token benchmark with the same fixed token budget. The method writes compressed-token artifacts under `checkpoints/`; evaluation reads those artifacts, computes retained local-evidence and global-context similarity, and never imports method code. Scores are written to `scoring/scores.json`. The reproduced benchmark is scaled to 32 retained tokens out of 128 synthetic encoder-like tokens; the paper reference describes the analogous LLaVA-1.5-7B 64-token setting.
