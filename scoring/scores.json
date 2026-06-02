@@ -2,33 +2,27 @@
   "experiments": {
     "token_pruning_core": {
       "results": {
-        "diversity_fps": {
+        "cdpruner": {
+          "mean_token_count": 32.0,
+          "performance_retained": 0.753318,
+          "retained_fraction": 0.25,
+          "sample_count": 240
+        },
+        "divprune": {
           "mean_token_count": 32.0,
           "performance_retained": 0.8762,
+          "retained_fraction": 0.25,
+          "sample_count": 240
+        },
+        "fastv": {
+          "mean_token_count": 32.0,
+          "performance_retained": 0.548995,
           "retained_fraction": 0.25,
           "sample_count": 240
         },
         "fsr": {
           "mean_token_count": 32.0,
           "performance_retained": 0.878018,
-          "retained_fraction": 0.25,
-          "sample_count": 240
-        },
-        "fused_topk": {
-          "mean_token_count": 32.0,
-          "performance_retained": 0.753318,
-          "retained_fraction": 0.25,
-          "sample_count": 240
-        },
-        "relevance_topk": {
-          "mean_token_count": 32.0,
-          "performance_retained": 0.739718,
-          "retained_fraction": 0.25,
-          "sample_count": 240
-        },
-        "saliency_topk": {
-          "mean_token_count": 32.0,
-          "performance_retained": 0.548995,
           "retained_fraction": 0.25,
           "sample_count": 240
         }
