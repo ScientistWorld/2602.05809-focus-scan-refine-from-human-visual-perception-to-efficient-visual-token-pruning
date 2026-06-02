@@ -38,5 +38,10 @@
 - `python validate.py --compare` passes after verification edits.
 - Final scope remains a scaled token-level gym for the paper's core pruning claim, not a full downstream VLM benchmark reproduction.
 
+### [2026-06-02 08:25] - core_claim
+- Final verification found an unvalidated multi-budget expansion had left `reference.json` and `scores.json` incompatible.
+- Reverted that expansion to restore the validated single-budget `token_pruning_core` gym.
+- `python validate.py --compare` passes after the revert; milestone remains `core_claim`.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.

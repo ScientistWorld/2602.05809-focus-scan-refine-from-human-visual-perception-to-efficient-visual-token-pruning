@@ -2,20 +2,22 @@
 
 ## Initial Assessment
 
-The workspace had a working scaled token-level reproduction of the paper's pruning algorithm at milestone `core_claim`. `validate.py --compare` passed, evaluation code was method-independent, and the method implementation was recognizable as the paper's actual token-selection and refinement computation. The main limitation was already documented: the gym uses a synthetic encoder-like token benchmark rather than full LLaVA/Qwen VLM benchmark inference.
+The workspace claimed milestone `core_claim` for a scaled token-level reproduction of the paper's visual-token pruning algorithm. The method implementation was recognizable as the paper's actual token scoring, selection, and refinement computation, and the benchmark limitation was already documented: this is not a full LLaVA/Qwen downstream benchmark rerun.
+
+During final verification, the latest working tree initially reflected an unvalidated multi-budget expansion that changed the reference experiment structure without regenerating compatible score files. That made the gym scoring contract invalid even though the prior single-budget `core_claim` reproduction was sound.
 
 ## Issues Found
 
-- Minor: `briefing/evaluation.md`, a method-agnostic file, named the proposed method and specific baseline methods. This leaked solution context into from-scratch materials.
-- Minor: `data/generate_token_benchmark.py` comments referred to the paper's solution stage, which leaked method hints through `data/`.
-- Minor: `scoring/reference.json` used placeholder `sample_count: 0` values for paper rows even though sample count is a gym audit metric, not a reported paper metric.
+- Critical, fixed: `reference.json` and `scores.json` were out of sync after an unvalidated multi-budget expansion. Automated comparison failed because reproduced scores still used the validated single-budget experiment while the reference schema expected the new experiments.
+- Minor, fixed: Generated `__pycache__` directories were present after local validation commands.
+- No unresolved method-agnostic leakage was found in `briefing/problem.md`, `briefing/evaluation.md`, or `scoring/EXPERIMENTS.md`.
+- No scored wall-clock metrics, author-deviation metrics, broken download URLs, committed `shared/` references, or `eval/` imports from `method/` were found.
 
 ## Fixes Applied
 
-- Reworded `briefing/evaluation.md` to describe the reference setting without naming the proposed method or specific baselines.
-- Reworded benchmark-generator comments to describe task difficulty generically.
-- Removed placeholder `sample_count` values from paper reference rows and added a note that evidence/context component metrics are gym-only diagnostics without paper reference values.
-- Re-ran `python validate.py --compare`; all checks pass.
+- Reverted the unvalidated multi-budget expansion, restoring the last validated single-budget `token_pruning_core` gym and its matching score files.
+- Removed generated `__pycache__` directories from source folders.
+- Re-ran `python validate.py --compare`; all checks pass, including scoring, import separation, train/test evaluator rewiring, method-key consistency, shared-path checks, and metric discrimination.
 
 ## Final Judgment
 
