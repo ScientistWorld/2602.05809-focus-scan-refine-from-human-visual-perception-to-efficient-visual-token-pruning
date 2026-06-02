@@ -137,7 +137,7 @@ Run each pruning method on the same token benchmark with the same fixed token bu
 
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `method_runs`.
