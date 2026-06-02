@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: method_runs
-notes: "Continuation audit found and fixed a baseline coverage gap. Run the full CPU reproduction and validation to regenerate scores including diversity_fps before restoring core_claim."
+notes: "Fix diversity_fps so the similarity-only baseline is query/saliency agnostic, then rerun full CPU reproduction and validation before restoring core_claim."

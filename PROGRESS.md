@@ -31,6 +31,7 @@ The same packaged reproduction passed in the compute container, and the repaired
 - Full VLM benchmark reproduction would require large VLM inference over multiple public benchmarks; the current reproduction uses a scaled token-level benchmark that preserves the paper's algorithmic computation.
 - The completed job's scheduler log paths were not readable from this workspace, but the job reported exit code 0 and produced validated `scoring/scores.json` artifacts in the workspace.
 - Continuation audit found that the standard reproduction script omitted the `diversity_fps` baseline listed in `scoring/reference.json`; this has been fixed and a CPU test validation job has been prepared.
+- CPU test job `a5c85115-dba` passed, but the regenerated `diversity_fps` score nearly tied FSR because the baseline was seeded with the maximum-saliency token. That seed gives a similarity-only baseline access to Focus-stage information, so `diversity_fps` now starts from a query-agnostic token farthest from the global mean before farthest-point sampling.
 
 ## Deviations from Paper
 

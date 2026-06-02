@@ -18,5 +18,10 @@
 - Found that `scripts/reproduce.sh` omitted the `diversity_fps` baseline even though it appears in `scoring/reference.json`.
 - Fixed the reproduction script and submitted a CPU test job to regenerate outputs and validate the comparison.
 
+### [2026-06-02 08:06] - method_runs
+- CPU test job `a5c85115-dba` passed validation and regenerated scores including `diversity_fps`.
+- Audit found the first `diversity_fps` implementation used the maximum-saliency token as its seed, which leaked Focus-stage information into a similarity-only baseline.
+- Fixed `diversity_fps` to initialize from a query-agnostic global-mean distance before farthest-point sampling and submitted another CPU validation job.
+
 ## Stop Justification
 - Pending validation after continuation audit.

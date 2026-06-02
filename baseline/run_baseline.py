@@ -40,7 +40,11 @@ def select_indices(sample: dict, method: str, budget: int) -> list[int]:
         score = np.power(_minmax(relevance) + 1e-12, 3.0) * (_minmax(saliency) + 1e-12)
         return [int(i) for i in np.argsort(-score, kind="mergesort")[:budget]]
     if method == "diversity_fps":
-        selected = [int(np.argmax(saliency))]
+        # Similarity-only pruning methods in the paper do not get the Focus
+        # stage's saliency/relevance seed. Start from the token farthest from
+        # the global mean so this baseline is query-agnostic before FPS.
+        mean_token = _unit(np.mean(norm_tokens, axis=0, keepdims=True))[0]
+        selected = [int(np.argmin(norm_tokens @ mean_token))]
         min_distance = 1.0 - (norm_tokens @ norm_tokens[selected[0]])
         min_distance[selected] = -np.inf
         while len(selected) < budget:
