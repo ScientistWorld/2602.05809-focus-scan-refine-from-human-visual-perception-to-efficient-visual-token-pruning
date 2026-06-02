@@ -7,20 +7,20 @@
 - Implemented FSR from the paper equations in `method/fsr.py`.
 - Added a deterministic token-pruning benchmark, simple baselines, method runner, and evaluation pipeline.
 - Local/source audit confirms `method/fsr.py` implements the paper's Focus, Scan, and Refine equations rather than a surrogate model.
-- CPU container jobs `b24fa7b0-574`, `a5c85115-dba`, and `b296916c-3ab` completed successfully with exit code 0 using the packaged scripts.
+- CPU container jobs `b24fa7b0-574`, `a5c85115-dba`, `b296916c-3ab`, and `e17065c1-4ac` completed successfully with exit code 0 using the packaged scripts.
 - Continuation audit found and fixed a scoring-reference issue: paper numbers are now keyed by the paper's actual baseline names, while the scaled reproduction emits matching paper-family proxy baseline artifacts for validation.
+- Job `e17065c1-4ac` regenerated `scoring/scores.json` and `python validate.py --compare` passed all scoring and structure checks.
 
 ## Results
 
 Scaled-token benchmark results at 32 retained tokens out of 128:
 
 - `fsr`: `performance_retained` 0.878, `retained_fraction` 0.25
-- `diversity_fps`: `performance_retained` 0.876, `retained_fraction` 0.25
-- `fused_topk`: `performance_retained` 0.753, `retained_fraction` 0.25
-- `relevance_topk`: `performance_retained` 0.740, `retained_fraction` 0.25
-- `saliency_topk`: `performance_retained` 0.549, `retained_fraction` 0.25
+- `divprune` proxy: `performance_retained` 0.876, `retained_fraction` 0.25
+- `cdpruner` proxy: `performance_retained` 0.753, `retained_fraction` 0.25
+- `fastv` proxy: `performance_retained` 0.549, `retained_fraction` 0.25
 
-The packaged reproduction passed again in CPU test job `b296916c-3ab`, and the repaired evaluator reports retained performance on a continuous 0-1 scale consistent with the paper's retained-performance metric. These scores support the paper's core claim in the scaled token benchmark: Focus-Scan-Refine preserves more task-relevant evidence and context than the reproduced pruning baselines under the same token budget.
+The packaged reproduction passed again in CPU test job `e17065c1-4ac`, and the repaired evaluator reports retained performance on a continuous 0-1 scale consistent with the paper's retained-performance metric. These scores support the paper's core claim in the scaled token benchmark: Focus-Scan-Refine preserves more task-relevant evidence and context than the reproduced pruning baselines under the same token budget.
 
 ## Remaining
 
@@ -34,7 +34,7 @@ The packaged reproduction passed again in CPU test job `b296916c-3ab`, and the r
 - Job logs and result files are readable under `jobs/` and show successful CPU container executions with `python validate.py --compare`.
 - Continuation audit found that the standard reproduction script omitted the `diversity_fps` baseline listed in `scoring/reference.json`; this has been fixed and a CPU test validation job has been prepared.
 - CPU test job `a5c85115-dba` passed, but the regenerated `diversity_fps` score nearly tied FSR because the baseline was seeded with the maximum-saliency token. That seed gives a similarity-only baseline access to Focus-stage information, so `diversity_fps` now starts from a query-agnostic token farthest from the global mean before farthest-point sampling.
-- After the scoring-reference repair, the existing `scoring/scores.json` is stale because it contains old local baseline names. The next CPU job runs `scripts/reproduce.sh` and regenerates matching scores.
+- CPU test job `e17065c1-4ac` regenerated `scoring/scores.json` with matching paper-family method names after the scoring-reference repair.
 
 ## Deviations from Paper
 

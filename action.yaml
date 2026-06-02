@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
 test: true
-milestone: method_runs
-notes: "CPU reproduction job to regenerate scores after repairing reference method names and baseline artifact names."
+milestone: core_claim
+notes: "Repaired scoring reference names, regenerated scores in CPU job e17065c1-4ac, and validated the scaled FSR core-claim reproduction."

@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -22,5 +22,11 @@
 - Fixed the reference to use the paper's actual baseline method names and updated the reproduction script to emit matching paper-family proxy baseline artifacts.
 - Current `scores.json` is stale until the next CPU reproduction job regenerates it.
 
+### [2026-06-02 08:50] - core_claim
+- CPU validation job `e17065c1-4ac` completed successfully and regenerated `scoring/scores.json` with paper-family method names.
+- `python validate.py --compare` passed all scoring and structure checks.
+- On the scaled token benchmark at 32 retained tokens out of 128, FSR reached `performance_retained` 0.878018 versus `fastv` 0.548995, `cdpruner` 0.753318, and `divprune` 0.876200.
+- Scope remains a scaled token-level reproduction of the FSR pruning algorithm and core compression-quality claim, not a full VLM benchmark rerun.
+
 ## Stop Justification
-- No stop requested; next action is a CPU validation submission to regenerate scores after the reference-name repair.
+- Completed the minimum scaled `core_claim` reproduction with regenerated scores, validation checks, packaged scripts, and documented deviations from the full paper setting.
