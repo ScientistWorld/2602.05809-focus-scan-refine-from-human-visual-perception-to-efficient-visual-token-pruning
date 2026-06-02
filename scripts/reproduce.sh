@@ -18,7 +18,9 @@ set -e
 
 cd /home/user
 
-# TODO: implement full reproduction pipeline
-# e.g.:
-#   bash scripts/baseline.sh
-#   bash scripts/method.sh
+bash scripts/download.sh
+mkdir -p checkpoints
+rm -f checkpoints/*_outputs.jsonl
+bash scripts/baseline.sh --budget 32 --methods saliency_topk relevance_topk fused_topk
+bash scripts/method.sh --budget 32
+bash scripts/evaluate.sh

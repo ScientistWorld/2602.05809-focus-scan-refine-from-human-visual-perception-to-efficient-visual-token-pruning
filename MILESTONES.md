@@ -1,21 +1,18 @@
 # Reproduction Milestones
 
-**Current: none**
-
-<!-- Milestone levels (update "Current" above as you progress):
-  none             — just started, no meaningful progress yet
-  method_runs      — the paper's method executes end-to-end without errors
-  core_claim       — minimum experiment supports the paper's central claim
-  core_claim_plus  — core claim reproduced on additional settings
-  secondary_claims — secondary results or contributions reproduced
-  majority         — more than half of reported results reproduced
-  near_complete    — most results reproduced, only minor gaps remain
-  full             — all reported results reproduced
--->
+**Current: method_runs**
 
 ## Progress Log
 
-<!-- Write your progress here -->
+### [2026-06-02 07:17] - none
+- Started reproduction work for FSR.
+- Read the paper markdown and extracted the method, benchmarks, and core reported numbers.
+- Implemented the paper's Focus-Scan-Refine token pruning computation and packaged a first scaled benchmark for job validation.
+
+### [2026-06-02 07:35] - method_runs
+- Ran `scripts/reproduce.sh` locally on the scaled token benchmark.
+- The actual FSR Focus, Scan, and Refine computation executed end-to-end and wrote scored artifacts.
+- Local validation with `python validate.py --compare` passed.
 
 ## Stop Justification
-- Completed at milestone `none`.
+- Not stopped.

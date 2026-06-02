@@ -1,0 +1,32 @@
+{
+  "experiments": {
+    "token_pruning_core": {
+      "results": {
+        "fsr": {
+          "mean_token_count": 32.0,
+          "performance_retained": 0.395833,
+          "retained_fraction": 0.25,
+          "sample_count": 240
+        },
+        "fused_topk": {
+          "mean_token_count": 32.0,
+          "performance_retained": 0.0875,
+          "retained_fraction": 0.25,
+          "sample_count": 240
+        },
+        "relevance_topk": {
+          "mean_token_count": 32.0,
+          "performance_retained": 0.0625,
+          "retained_fraction": 0.25,
+          "sample_count": 240
+        },
+        "saliency_topk": {
+          "mean_token_count": 32.0,
+          "performance_retained": 0.0,
+          "retained_fraction": 0.25,
+          "sample_count": 240
+        }
+      }
+    }
+  }
+}

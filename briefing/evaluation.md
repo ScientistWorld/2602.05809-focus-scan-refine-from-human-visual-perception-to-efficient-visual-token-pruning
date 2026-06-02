@@ -1,15 +1,15 @@
 # Evaluation
 
-How success is measured. Describe only the metrics, targets, and evaluation procedure — do NOT describe the paper's method or how they achieved these results. Think of this as a general evaluation protocal for other scientists trying to solve the same problem, where they should not see this paper's solution.
-
 ## Metrics
 
-<!-- What metrics are used? How are they computed? What does higher/lower mean? -->
+The primary metric is `performance_retained`: the fraction of benchmark samples where the compressed visual-token representation preserves both the query-relevant evidence and required global context. Higher is better.
+
+Constraint metrics measure the compression setting: `mean_token_count` and `retained_fraction`. Lower values are better when performance is held fixed.
 
 ## Baselines and Targets
 
-<!-- What performance levels exist as reference points? Include the paper's reported numbers as targets, and any standard baselines. A scientist agent should know what "good" looks like. -->
+The paper reports the core LLaVA-1.5-7B aggressive-compression setting at 64 retained tokens from 576 original visual tokens. At this setting, the unpruned model is the 100% reference, FastV retains 72.0% average performance, CDPruner retains 95.7%, and FSR retains 96.1%.
 
 ## Evaluation Protocol
 
-<!-- How should evaluation be run? What data split, what conditions? Any important details about how to compare fairly (e.g., fixed seeds, specific test sets, averaging over runs). -->
+Run each pruning method on the same token benchmark with the same fixed token budget. The method writes compressed-token artifacts under `checkpoints/`; evaluation reads those artifacts and never imports method code. Scores are written to `scoring/scores.json`.

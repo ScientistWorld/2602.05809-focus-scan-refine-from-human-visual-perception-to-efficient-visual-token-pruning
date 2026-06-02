@@ -1,0 +1,64 @@
+{
+  "experiments": {
+    "token_pruning_core": {
+      "description": "Core aggressive visual-token pruning claim, based on LLaVA-1.5-7B at 64 retained visual tokens from Table 1 and efficiency constraints from Table 7.",
+      "weight": 1.0,
+      "primary_metric": "performance_retained",
+      "metrics": {
+        "performance_retained": {
+          "higher_is_better": true,
+          "coefficient": 1.0
+        },
+        "mean_token_count": {
+          "higher_is_better": false,
+          "coefficient": -0.3
+        },
+        "retained_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.5
+        },
+        "sample_count": {
+          "higher_is_better": true,
+          "coefficient": 0.0
+        }
+      },
+      "results": {
+        "saliency_topk": {
+          "type": "baseline",
+          "performance_retained": 0.72,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "fused_topk": {
+          "type": "baseline",
+          "performance_retained": 0.957,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "relevance_topk": {
+          "type": "baseline",
+          "performance_retained": 0.935,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "diversity_fps": {
+          "type": "baseline",
+          "performance_retained": 0.933,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        },
+        "fsr": {
+          "type": "proposed",
+          "performance_retained": 0.961,
+          "mean_token_count": 64,
+          "retained_fraction": 0.111111,
+          "sample_count": 0
+        }
+      }
+    }
+  }
+}
