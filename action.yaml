@@ -27,8 +27,8 @@
 #   milestone: core_claim
 #   notes: "Reproduced the core claim. Environment packaged."
 
-action: pending
-gpus: 1
-test: false
-milestone: none
-notes: ""
+action: submit
+gpus: 0
+test: true
+milestone: method_runs
+notes: "CPU test job for the packaged FSR reproduction: generate benchmark, run baselines and FSR, evaluate, and validate scores."
