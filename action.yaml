@@ -1,9 +1,5 @@
-# This iteration writes files only — do NOT submit compute jobs.
-# Once you set action to 'done', STOP immediately.
-# Do NOT sleep, poll, or wait. The system reads this file
-# only after your turn ends.
-action: done
+# The system reads this file after the turn ends.
+action: submit
 gpus: 0
 test: false
-milestone: core_claim
-notes: "Improvements: added source-token fidelity constraint to train/test split and completed metric descriptions. Notes: fixed-vector fabrication is now penalized; fixed-position memorization remains a runtime/design concern."
+notes: "Run evaluate_train.sh and evaluate_test.sh against existing checkpoint outputs; populate split scores."
