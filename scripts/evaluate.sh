@@ -1,31 +1,13 @@
 #!/bin/bash
-# Evaluation script — the standard way to evaluate work in this environment.
+# Evaluate every registered pruner (checkpoints/pruners/*.json) on the visible split
+# and write scoring/scores.json. Uses only code in eval/ (never imports method/).
 #
-# This script must be SELF-CONTAINED using only code in eval/.
-# Do NOT import from method/ — evaluate.sh must work even when the
-# paper's method code is hidden from a scientist agent.
-#
-# Design it so that anyone following the same output format can run
-# this script to evaluate their results.
-#
-# OUTPUT CONTRACT: This script MUST write scoring/scores.json containing
-# a JSON dict nested by experiment, e.g.:
-#   {"imagenet_classification": {"top1_accuracy": 82.1, "top5_accuracy": 94.8}}
-# Experiment and metric names must match the keys in scoring/reference.json.
-# This file is read by the system for automated comparison.
-#
-# Example usage:
-#   bash scripts/evaluate.sh
-#   bash scripts/evaluate.sh --outputs-dir checkpoints --output scoring/scores.json
-#
-# Called from run.sh after training, or independently.
+# Requires a GPU for the frozen LLaVA-1.5-7B language model and CLIP encoder.
+# Extra arguments are passed to eval/train/evaluate.py (e.g. --pruners-dir DIR).
 
 set -e
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "${REPO_ROOT}"
-
 mkdir -p scoring
-
-python eval/evaluate_token_benchmark.py "$@"
+python eval/train/evaluate.py --output scoring/scores.json "$@"

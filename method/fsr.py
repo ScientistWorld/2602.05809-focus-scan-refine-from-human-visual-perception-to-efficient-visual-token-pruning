@@ -1,5 +1,24 @@
 #!/usr/bin/env python3
-"""Focus-Scan-Refine token pruning from Tong et al. (2026)."""
+"""Focus-Scan-Refine visual-token pruning (Tong et al., 2026, arXiv:2602.05809).
+
+Operates on one image/query pair of LLaVA-1.5 visual tokens:
+
+* Focus  (Sec. 3.2, Eq. 1-4): saliency s_i = head-mean [CLS] attention of the
+  vision encoder; instruction relevance r_i = cosine between the token's CLIP
+  joint-space embedding and the CLIP text embedding of the instruction,
+  computed as in Zhang et al. (2025b, CDPruner), which the paper cites for
+  this score; both min-max normalised; priority phi = r^alpha * s^beta; keep
+  the smallest top-phi prefix holding a fraction rho of the total mass.
+* Scan   (Sec. 3.3, Eq. 5): conditional farthest-point sampling in cosine
+  distance, initialised with the Focus set, for the remaining K - K_F slots.
+* Refine (Sec. 3.4, Eq. 8-9): each discarded token is assigned to its most
+  similar Scan anchor; the M = kappa * |S| discarded tokens most similar to
+  their anchors are merged into them with priority-weighted averaging
+  (weights initialised to phi). Focus tokens are kept intact.
+
+Token similarity is cosine similarity of the projected visual tokens (the
+features the language model consumes), as in the CDPruner code base.
+"""
 
 from __future__ import annotations
 
@@ -7,122 +26,125 @@ from dataclasses import dataclass
 
 import numpy as np
 
+EPS = 1e-12
+
 
 @dataclass
 class FSRResult:
-    selected_indices: list[int]
-    focus_indices: list[int]
-    scan_indices: list[int]
-    compressed_tokens: np.ndarray
+    focus: list[int]
+    scan: list[int]
+    merged: dict[int, list[int]]      # scan anchor -> discarded tokens merged into it
     priority: np.ndarray
+    slots: list[dict]
 
 
-def _l2_normalize(x: np.ndarray) -> np.ndarray:
-    return x / (np.linalg.norm(x, axis=-1, keepdims=True) + 1e-12)
-
-
-def _minmax(x: np.ndarray) -> np.ndarray:
-    lo = float(np.min(x))
-    hi = float(np.max(x))
-    if hi - lo < 1e-12:
+def minmax(x: np.ndarray) -> np.ndarray:
+    lo, hi = float(np.min(x)), float(np.max(x))
+    if hi - lo < EPS:
         return np.ones_like(x)
     return (x - lo) / (hi - lo)
 
 
+def instruction_relevance(joint_embeds: np.ndarray, text_embed: np.ndarray, sign: str = "neg") -> np.ndarray:
+    """Normalised relevance r_hat in [0, 1] (Eq. 2 + normalisation).
+
+    ``sign="neg"`` follows the released CDPruner computation that the paper
+    cites for this score (relevance = -cos, then min-max with +1e-6), which
+    accounts for CLIP's inverted patch-text similarity on LLaVA-1.5's
+    penultimate-layer features. ``sign="pos"`` uses +cos literally.
+    """
+    j = joint_embeds.astype(np.float32)
+    j = j / np.maximum(np.linalg.norm(j, axis=-1, keepdims=True), 1e-6)
+    rel = j @ text_embed.astype(np.float32)
+    if sign == "neg":
+        rel = -rel
+    return (rel - rel.min() + 1e-6) / max(float(rel.max() - rel.min()), 1e-6)
+
+
 def focus_scan_refine(
-    tokens: np.ndarray,
-    query_embedding: np.ndarray,
-    cls_attention: np.ndarray,
+    cosine: np.ndarray,
+    relevance: np.ndarray,
+    saliency: np.ndarray,
     budget: int,
     alpha: float = 3.0,
     beta: float = 1.0,
     rho: float = 0.9,
     kappa: float = 1.0,
+    scan: bool = True,
+    refine_weights: str = "priority",
+    scan_mode: str = "fps",
 ) -> FSRResult:
-    """Run the paper's three-stage FSR algorithm on one token sequence.
+    n = cosine.shape[0]
+    if not 1 <= budget <= n:
+        raise ValueError(f"budget must be in [1, {n}]")
+    cosine = np.asarray(cosine, dtype=np.float32)
+    r_hat = np.clip(np.asarray(relevance, dtype=np.float64), 0.0, None)
+    s_hat = minmax(np.asarray(saliency, dtype=np.float64))
+    phi = np.power(r_hat, alpha) * np.power(s_hat, beta)                     # Eq. 3
 
-    Args follow the paper: alpha/beta fuse instruction relevance and visual
-    saliency, rho determines the dynamic Focus budget, and kappa controls how
-    many discarded tokens are merged into Scan anchors during Refine.
-    """
-
-    tokens = np.asarray(tokens, dtype=np.float64)
-    query_embedding = np.asarray(query_embedding, dtype=np.float64)
-    cls_attention = np.asarray(cls_attention, dtype=np.float64)
-    n_tokens = tokens.shape[0]
-    if not 1 <= budget <= n_tokens:
-        raise ValueError(f"budget must be in [1, {n_tokens}], got {budget}")
-
-    norm_tokens = _l2_normalize(tokens)
-    norm_query = query_embedding / (np.linalg.norm(query_embedding) + 1e-12)
-
-    relevance = norm_tokens @ norm_query
-    saliency = cls_attention
-    priority = np.power(_minmax(relevance) + 1e-12, alpha) * np.power(
-        _minmax(saliency) + 1e-12, beta
-    )
-
-    order = np.argsort(-priority, kind="mergesort")
-    total_mass = float(np.sum(priority))
-    if total_mass <= 1e-12:
-        focus_count = min(1, budget)
+    # Focus: minimum prefix of the phi-sorted tokens holding rho of the mass (Eq. 4)
+    order = np.argsort(-phi, kind="stable")
+    total = float(phi.sum())
+    if scan and total > EPS:
+        cum = np.cumsum(phi[order])
+        k_f = int(np.searchsorted(cum, rho * total, side="left")) + 1
+    elif scan:
+        k_f = 1
     else:
-        cumulative = np.cumsum(priority[order])
-        focus_count = int(np.searchsorted(cumulative, rho * total_mass, side="left") + 1)
-        focus_count = max(1, min(focus_count, budget))
+        k_f = budget
+    k_f = max(1, min(k_f, budget))
+    focus = [int(i) for i in order[:k_f]]
 
-    focus = [int(i) for i in order[:focus_count]]
-    selected = list(focus)
-    scan: list[int] = []
+    # Scan: conditional farthest-point sampling seeded with the Focus set (Eq. 5)
+    selected = np.zeros(n, dtype=bool)
+    selected[focus] = True
+    scan_set: list[int] = []
+    if k_f < budget and scan_mode == "dpp":
+        # variant: relevance-weighted conditional DPP, greedy MAP seeded with the Focus set
+        kernel = r_hat[:, None] * cosine.astype(np.float64) * r_hat[None, :]
+        cis = np.zeros((budget, n))
+        di2s = np.diag(kernel).copy()
+        chosen: list[int] = []
+        for i in range(budget):
+            j = focus[i] if i < k_f else int(np.argmax(di2s))
+            chosen.append(j)
+            eis = (kernel[j] - cis[:i, j] @ cis[:i]) / np.sqrt(max(di2s[j], 1e-12))
+            cis[i] = eis
+            di2s -= eis ** 2
+            di2s[chosen] = -np.inf
+        scan_set = [int(j) for j in chosen[k_f:]]
+        selected[scan_set] = True
+    elif k_f < budget:
+        min_dist = np.min(1.0 - cosine[:, focus], axis=1)
+        min_dist[selected] = -np.inf
+        for _ in range(budget - k_f):
+            nxt = int(np.argmax(min_dist))
+            scan_set.append(nxt)
+            selected[nxt] = True
+            min_dist = np.minimum(min_dist, 1.0 - cosine[:, nxt])
+            min_dist[selected] = -np.inf
 
-    if len(selected) < budget:
-        selected_mask = np.zeros(n_tokens, dtype=bool)
-        selected_mask[selected] = True
-        sim_to_selected = norm_tokens @ norm_tokens[selected].T
-        min_distance = np.min(1.0 - sim_to_selected, axis=1)
-        min_distance[selected_mask] = -np.inf
+    # Refine: merge the top-M most anchor-similar discarded tokens (Eq. 8-9)
+    merged: dict[int, list[int]] = {a: [] for a in scan_set}
+    discarded = np.flatnonzero(~selected)
+    m = min(len(discarded), int(round(kappa * len(scan_set))))
+    if scan_set and m > 0:
+        sims = cosine[np.ix_(discarded, scan_set)]
+        nearest = np.argmax(sims, axis=1)
+        nearest_sim = sims[np.arange(len(discarded)), nearest]
+        top = np.argsort(-nearest_sim, kind="stable")[:m]
+        for t in top:
+            merged[scan_set[int(nearest[t])]].append(int(discarded[t]))
 
-        while len(selected) < budget:
-            nxt = int(np.argmax(min_distance))
-            selected.append(nxt)
-            scan.append(nxt)
-            selected_mask[nxt] = True
-            new_distance = 1.0 - (norm_tokens @ norm_tokens[nxt])
-            min_distance = np.minimum(min_distance, new_distance)
-            min_distance[selected_mask] = -np.inf
-
-    compressed = tokens[selected].copy()
-
-    # Refine only the scan anchors. Focus tokens remain untouched.
-    if scan:
-        selected_set = set(selected)
-        discarded = [i for i in range(n_tokens) if i not in selected_set]
-        if discarded:
-            scan_pos = {idx: pos for pos, idx in enumerate(selected)}
-            scan_norm = norm_tokens[scan]
-            discarded_norm = norm_tokens[discarded]
-            sims = discarded_norm @ scan_norm.T
-            nearest = np.argmax(sims, axis=1)
-            nearest_sim = sims[np.arange(len(discarded)), nearest]
-            merge_count = min(len(discarded), int(round(kappa * len(scan))))
-            if merge_count > 0:
-                top_local = np.argsort(-nearest_sim, kind="mergesort")[:merge_count]
-                weights = {idx: float(priority[idx]) + 1e-12 for idx in scan}
-                for local_idx in top_local:
-                    discarded_idx = int(discarded[local_idx])
-                    anchor_idx = int(scan[nearest[local_idx]])
-                    pos = scan_pos[anchor_idx]
-                    anchor_w = weights[anchor_idx]
-                    token_w = float(priority[discarded_idx]) + 1e-12
-                    compressed[pos] = (
-                        anchor_w * compressed[pos] + token_w * tokens[discarded_idx]
-                    ) / (anchor_w + token_w)
-                    weights[anchor_idx] = anchor_w + token_w
-
-    return FSRResult(
-        selected_indices=selected,
-        focus_indices=focus,
-        scan_indices=scan,
-        compressed_tokens=compressed,
-        priority=priority,
-    )
+    slots: list[tuple[int, dict]] = []
+    for f in focus:
+        slots.append((f, {"tokens": [f]}))
+    for a in scan_set:
+        toks = [a] + merged[a]
+        if refine_weights == "priority":
+            w = [float(phi[t]) + EPS for t in toks]                         # w_j initialised to phi_j
+        else:
+            w = [1.0] * len(toks)
+        slots.append((a, {"tokens": toks, "weights": w} if len(toks) > 1 else {"tokens": toks}))
+    slots.sort(key=lambda kv: kv[0])                                         # keep raster order
+    return FSRResult(focus=focus, scan=scan_set, merged=merged, priority=phi, slots=[s for _, s in slots])

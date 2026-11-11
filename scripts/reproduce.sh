@@ -1,28 +1,19 @@
 #!/bin/bash
-# Reproduce the paper's results end-to-end.
-#
-# This script runs inside the compute container and should call
-# scripts/baseline.sh and scripts/method.sh to run baselines and
-# the paper's method, each of which calls scripts/evaluate.sh.
-#
-# Assumes:
-#   - Container is built (environment/container.sif)
-#   - Data and models are downloaded (via scripts/download.sh)
-#   - Working directory can be any checkout location
-#
-# This is the "gold standard" reproduction — 
-# You do not need to run this, but keep this in good shape
-# so other agents can easily run a full loop of reproduction and get the paper's numbers.
+# Reproduce the gym's reference results end to end (GPU required, no internet needed
+# once scripts/download.sh has run):
+#   1. register FSR and the baselines as pruner programs
+#   2. score them on the visible split  -> scoring/scores_train.json (+ scores.json)
+#   3. score them on the hidden split   -> scoring/scores_test.json
 
 set -e
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "${REPO_ROOT}"
 
 bash scripts/download.sh
-mkdir -p checkpoints
-rm -f checkpoints/*_outputs.jsonl
-bash scripts/baseline.sh --budget 32 --methods fastv divprune cdpruner
-bash scripts/method.sh --budget 32
-bash scripts/evaluate.sh
+rm -rf checkpoints/pruners
+bash scripts/method.sh
+bash scripts/baseline.sh
+bash scripts/evaluate_train.sh
+cp scoring/scores_train.json scoring/scores.json
+bash scripts/evaluate_test.sh

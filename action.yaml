@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
-# Do NOT sleep, poll, or wait for jobs. The system reads this file
-# only after your turn ends.
-action: pending
-gpus: 0
-test: false
+action: submit
+gpus: 1
+test: true
 milestone: core_claim
-notes: ""
+notes: "Smoke test of the rebuilt LLaVA-1.5-7B token-pruning evaluator (6 images per split, all variants and shortcuts)."
