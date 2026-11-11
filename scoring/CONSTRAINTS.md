@@ -1,20 +1,36 @@
 # Scientist Constraints
 
-## Data
+## What is fixed (enforced by `eval/`)
 
-Use the provided `data/token_benchmark.jsonl` benchmark for reported scores. Do not add external examples to the scored set or regenerate the benchmark with easier parameters when submitting comparable results.
+- The frozen models: LLaVA-1.5-7B language model and projector, and CLIP ViT-L/14-336
+  vision and text encoders. All are hash-verified; nothing may be fine-tuned or replaced.
+- The questions, answers, images, prompts and answer parsing (`eval/`, hash-pinned images).
+- The budgets: at most 64 slots (and 32 for the second metric) per question. A slot is a
+  non-negative weighting of the same image's 576 tokens; arbitrary vectors cannot be
+  submitted.
+- The pruning step is a CPU program run by the evaluator. The GPU and the language model are
+  unavailable to it, and it has 60 s + 0.1 s per question.
 
-## Budget
+## What you may change
 
-Use the same retained-token budget as the reproduction script unless explicitly reporting a separate experiment. Increasing the number of retained tokens is resource scaling, not a methodological improvement.
+- The pruning rule: which tokens to keep, how to merge, how to split the budget, which of
+  the provided signals to use (features, projected features, similarities, [CLS] attention,
+  CLIP joint-space patch embeddings, the question text and its CLIP embedding), and the
+  slot order.
+- Hyperparameters, tuned on the visible split only.
 
-## Evaluation
+## Not allowed
 
-Submit artifacts in the same `checkpoints/*_outputs.jsonl` format and score them with `scripts/evaluate.sh`. Do not modify `eval/` or `scoring/reference.json` to improve a method's score.
+- Reading, reconstructing or looking up answers (including public COCO annotations or
+  captions for the evaluation images), or identifying which public image a question is about.
+- Calling the language model, or any other large network, inside the pruning step.
+- Editing `eval/`, `scoring/reference.json`, the item files or the downloaded artifacts.
+- Registering a copy of an existing method under a new name and reporting it as new.
 
 ## Compliance Checklist
 
-- [ ] Scored on `data/token_benchmark.jsonl`
-- [ ] Used the declared retained-token budget
-- [ ] Wrote method outputs in the standard JSONL format
-- [ ] Ran `scripts/evaluate.sh` without importing from `method/`
+- [ ] Method registered as `checkpoints/pruners/<name>.json` and scored by the unmodified
+      evaluators
+- [ ] Pruner uses only the inputs in `--inputs DIR` (no labels, no network, no LLM)
+- [ ] Hyperparameters chosen on the visible split
+- [ ] Both budgets (64 and 32) answered for every question

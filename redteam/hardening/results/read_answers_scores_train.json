@@ -1,0 +1,79 @@
+{
+  "experiments": {
+    "_diagnostics": {
+      "_full_tokens": {
+        "family_accuracy": {
+          "absent": 0.68,
+          "caption": 0.9166666666666666,
+          "count": 0.5566666666666666,
+          "exist": 0.9033333333333333
+        }
+      },
+      "fsr": {
+        "budgets": {
+          "32": {
+            "family_accuracy": {
+              "absent": 0.39666666666666667,
+              "caption": 0.8233333333333334,
+              "count": 0.49666666666666665,
+              "exist": 0.8858333333333334
+            },
+            "mean_slots": 32.0
+          },
+          "64": {
+            "family_accuracy": {
+              "absent": 0.4866666666666667,
+              "caption": 0.8866666666666667,
+              "count": 0.5366666666666666,
+              "exist": 0.9033333333333333
+            },
+            "mean_slots": 64.0
+          }
+        },
+        "status": "ok"
+      },
+      "num_images": 300,
+      "num_questions": 2100,
+      "sc_read_answers": {
+        "budgets": {
+          "32": {
+            "family_accuracy": {
+              "absent": 0.39666666666666667,
+              "caption": 0.8233333333333334,
+              "count": 0.49666666666666665,
+              "exist": 0.9191666666666667
+            },
+            "mean_slots": 32.0
+          },
+          "64": {
+            "family_accuracy": {
+              "absent": 0.4866666666666667,
+              "caption": 0.8866666666666667,
+              "count": 0.5366666666666666,
+              "exist": 0.9441666666666667
+            },
+            "mean_slots": 64.0
+          }
+        },
+        "status": "ok"
+      },
+      "status": "complete"
+    },
+    "token_pruning_core": {
+      "results": {
+        "fsr": {
+          "global_context_retained": 0.84148,
+          "local_evidence_retained": 0.982036,
+          "performance_retained": 0.911758,
+          "performance_retained_32": 0.83859
+        },
+        "sc_read_answers": {
+          "global_context_retained": 0.84148,
+          "local_evidence_retained": 1.004637,
+          "performance_retained": 0.923058,
+          "performance_retained_32": 0.847815
+        }
+      }
+    }
+  }
+}

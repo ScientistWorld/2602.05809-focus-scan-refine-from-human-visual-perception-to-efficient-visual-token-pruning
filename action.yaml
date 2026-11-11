@@ -1,6 +1,4 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
-action: submit
-gpus: 1
-test: false
+action: done
 milestone: core_claim
-notes: "Final run: reproduce reference + baselines from final code (official train/test), shortcut pruners incl. answer-reading through hidden test with answer-dir guard."
+notes: "Hardened: test rebuilt on frozen LLaVA-1.5-7B + COCO (64/32 tokens), pruner-program contract with hidden test-time inputs; all red-team shortcuts fail or tie; FSR 0.917 vs CDPruner 0.910/DivPrune 0.890 at 64 tokens (CDPruner leads at 32). See HARDENING.md."

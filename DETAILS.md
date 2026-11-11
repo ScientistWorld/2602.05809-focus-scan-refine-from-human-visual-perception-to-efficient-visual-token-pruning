@@ -11,9 +11,13 @@ FSR compresses VLM visual tokens at inference time without changing model weight
 
 ## Key Results
 
-- On LLaVA-1.5-7B with only 64 of 576 tokens retained, FSR preserves 96.1% average performance.
+- On LLaVA-1.5-7B with only 64 of 576 tokens retained, FSR preserves 96.1% average performance (CDPruner 95.7%, DivPrune 93.3%, FastV 72.0%).
 - In the same 64-token setting, FSR reports 2.291T FLOPs versus 9.042T for the unpruned model.
 - On LLaVA-NeXT-13B, pruning can slightly outperform the dense token set in some settings, suggesting token redundancy can add noise.
+
+## This environment
+
+The gym evaluates pruning rules on a frozen LLaVA-1.5-7B over COCO questions at 64 and 32 tokens. A hidden test runs each registered pruner on inputs that exist only at test time. Reproduced FSR: 0.917 relative performance at 64 tokens on the hidden split (DivPrune 0.890, CDPruner 0.910, random 0.831).
 
 ---
 
@@ -21,15 +25,35 @@ FSR compresses VLM visual tokens at inference time without changing model weight
 
 ## Research Question
 
-How can a vision-language system reduce the number of visual tokens passed to the language model at inference time while preserving enough image evidence to answer the user query?
+How can a vision-language model reduce the number of visual tokens passed to its language
+model at inference time, without retraining anything, while keeping enough image
+information to answer the user's question?
 
 ## Why It Matters
 
-Visual tokens dominate the attention cost and KV-cache footprint of modern VLM inference. A good pruning policy can make VLMs cheaper and faster without retraining the backbone or sacrificing answer quality.
+Visual tokens dominate the attention cost and KV-cache footprint of VLM inference (LLaVA-1.5
+feeds 576 tokens per image; high-resolution and video models feed thousands). A plug-in rule
+that keeps a small, fixed number of tokens makes inference cheaper and faster without
+touching model weights, provided the answers stay correct.
+
+## Setting in this environment
+
+* Frozen LLaVA-1.5-7B: CLIP ViT-L/14-336 vision encoder (576 patch tokens on a 24x24 grid),
+  two-layer MLP projector, Vicuna-7B language model, greedy decoding.
+* A pruning rule receives, for each image/question pair, the image's visual tokens and
+  encoder statistics plus the question text and its CLIP text embedding, and returns at most
+  K "slots". Each slot is a non-negative weighting of that image's own tokens (a single kept
+  token, or a merge of several), fed to the language model in the order given.
+* Token budgets: K = 64 (88.9% reduction) and K = 32 (94.4% reduction).
+* Questions are about natural images (COCO): whether an object is present, how many
+  instances there are, which caption describes the scene, and which listed object is absent.
 
 ## Success Criteria
 
-A successful solution keeps a fixed small token budget, preserves query-critical local evidence, retains enough complementary global context for reasoning, and works as a training-free inference-time module.
+At the same fixed budget, the frozen model should answer as accurately as possible relative
+to its own accuracy with all 576 tokens, both on questions about specific objects and on
+questions that need the whole scene, and the pruning step should stay a light,
+training-free computation.
 
 ---
 
@@ -37,37 +61,114 @@ A successful solution keeps a fixed small token budget, preserves query-critical
 
 ## Key Contribution
 
-Focus-Scan-Refine (FSR) is a training-free visual token pruning framework for VLM inference. It dynamically allocates a fixed token budget between query-critical local evidence and complementary global context.
+Focus-Scan-Refine (FSR) is a training-free visual token pruning framework for VLM inference.
+It dynamically allocates a fixed token budget between query-critical local evidence and
+complementary global context.
 
-## Approach
+## Approach (as implemented in `method/fsr.py`)
 
-FSR has three stages. Focus computes visual saliency from the vision encoder CLS attention and instruction relevance from cosine similarity between visual tokens and a CLIP text embedding, then fuses them as `phi = relevance^alpha * saliency^beta`. It chooses the smallest top-priority prefix whose cumulative priority mass reaches `rho`.
+* **Focus** (Eq. 1–4). Saliency s_i is the head-mean [CLS]-to-patch attention of the vision
+  encoder's penultimate layer. Instruction relevance r_i is the cosine similarity between a
+  token's CLIP joint-space embedding and the CLIP text embedding of the instruction. It is
+  computed as in CDPruner, which the paper cites for this score: the sign is negated, then
+  min-max normalised. Saliency is also min-max normalised. Priority phi = r^alpha * s^beta
+  (alpha = 3, beta = 1). Keep the smallest prefix of the phi-sorted tokens holding a fraction
+  rho = 0.9 of the information mass.
+  *Mass reading:* on LLaVA-1.5 the [CLS] attention is spread out. Taking the mass over all
+  576 tokens needs more than K tokens on 99–100% of questions, which would switch off Scan
+  and Refine, contrary to the paper's Fig. 1. The implementation therefore takes the mass
+  over the K highest-priority candidates (`--focus-mass budget`, default). The literal
+  reading is `--focus-mass all`.
+* **Scan** (Eq. 5). Conditional farthest-point sampling in cosine distance between projected
+  tokens, initialised with the Focus set, fills the remaining K − K_F slots.
+* **Refine** (Eq. 8–9). Each discarded token is assigned to its most similar Scan anchor.
+  The kappa·|S| discarded tokens most similar to their anchors (kappa = 1) are merged into
+  them by priority-weighted averaging, with weights initialised to phi. Focus tokens stay
+  intact.
 
-Scan fills the remaining budget with conditional farthest-point sampling initialized by the Focus set. Each new token maximizes its minimum cosine distance from already selected anchors.
-
-Refine keeps Focus tokens unchanged and merges a limited number of discarded tokens into Scan anchors. Discarded tokens are assigned to their nearest Scan anchor and merged by priority-score-weighted averaging, with merge count `kappa * |Scan|`.
+Run with `bash scripts/method.sh`, which registers `method/prune_fsr.py`, then evaluate.
 
 ## Main Claims
 
-The central claim is that FSR preserves VLM accuracy better than prior training-free pruning methods under aggressive token budgets while maintaining the same compression level. Secondary claims cover high-resolution VLMs, video VLMs, larger VLMs, and efficiency gains in FLOPs, KV cache, and prefill latency.
+FSR preserves VLM accuracy better than prior training-free pruning methods under aggressive
+token budgets at the same compression. The paper's secondary claims cover high-resolution
+VLMs, video VLMs, larger VLMs, and efficiency (FLOPs, KV cache, prefill latency).
+
+## Reproduction status (this environment)
+
+On the hidden split at 64 tokens, FSR scores 0.917. That is above DivPrune (0.890),
+[CLS]-attention top-K (0.795) and random (0.831), and level with CDPruner (0.910, inside
+noise). At 32 tokens CDPruner is ahead (0.866 vs 0.838). See `HARDENING.md`.
 
 ---
 
 # Evaluation
 
-## Metrics
+## Metrics (all higher is better)
 
-The primary metric is `performance_retained`: a continuous 0-1 score measuring how well the compressed visual-token representation preserves both query-relevant local evidence and required global context. Higher is better.
+* `performance_retained`: at K = 64, the mean over the four question families of
+  (accuracy with the pruned tokens) / (accuracy of the same frozen model with all 576 tokens).
+  This is the "average relative performance" used in the visual-token pruning literature.
+* `performance_retained_32`: the same at K = 32.
+* `local_evidence_retained`: at K = 64, relative performance on the families answered from
+  specific objects (existence, counting).
+* `global_context_retained`: at K = 64, relative performance on the families that need the
+  whole scene (caption matching, absent-object choice).
 
-Constraint metrics measure the compression setting: `mean_token_count` and `retained_fraction`. Lower values are better when performance is held fixed.
+A method that fails (crash, timeout, malformed or over-budget output, missing questions)
+gets 0.0 in every metric.
 
-## Reference Setting
+## Question families
 
-The source paper reports the core LLaVA-1.5-7B aggressive-compression setting at 64 retained tokens from 576 original visual tokens. At this setting, the unpruned model is the 100% reference and the best reported compressed systems retain roughly 96% average performance.
+COCO val2017 images, ground truth from COCO annotations:
 
-## Evaluation Protocol
+* existence: "Is there a/an X in the image?" (yes/no; absent objects sampled at random,
+  by popularity, and by co-occurrence with present objects, as in POPE);
+* counting: "How many X are there in the image?" for clearly visible, non-crowd instances;
+* caption: choose the matching caption among four (distractors from images with similar
+  object sets);
+* absent: choose which of four listed objects is not present (three present, one absent
+  co-occurring object).
 
-Run each pruning method on the same token benchmark with the same fixed token budget. The method writes compressed-token artifacts under `checkpoints/`; evaluation reads those artifacts, computes retained local-evidence and global-context similarity, and never imports method code. Scores are written to `scoring/scores.json`. The reproduced benchmark is scaled to 32 retained tokens out of 128 synthetic encoder-like tokens; the paper reference describes the analogous LLaVA-1.5-7B 64-token setting.
+Prompts follow LLaVA-1.5's evaluation templates ("Answer the question using a single word or
+phrase." / "Answer with the option's letter from the given choices directly."). Answers are
+parsed with POPE's yes/no rule, the first number, or the first option letter.
+
+## Protocol
+
+1. Register a method as a pruner program: `checkpoints/pruners/<name>.json` containing
+   `{"command": ["python", "path/to/your_pruner.py", "--any", "options"]}`. Every file there
+   is scored; there is no other inventory.
+2. The evaluator computes the inputs itself and runs
+   `<command> --inputs DIR --budget K --output FILE` for K = 64 and 32, on CPU only, with a
+   time budget of 60 s + 0.1 s per question. `DIR/meta.json` documents the inputs:
+   `vision_features` (CLIP penultimate-layer patch features), `projected_features` (the
+   projector outputs the language model consumes), `projected_cosine`, `joint_embeds` (patch
+   features in CLIP's image-text space), `cls_attention` ([CLS]-to-patch attention of the
+   penultimate vision layer), `text_embeds` (CLIP text embedding of the question), and
+   `queries.jsonl`. `data/pruner_io.py` reads them.
+3. Output: one JSON line per question, `{"qid": ..., "slots": [{"tokens": [i, ...],
+   "weights": [w, ...]}, ...]}`, with at most K slots, token indices in [0, 576), and weights
+   finite, >= 0, positive sum (optional, uniform if omitted). The evaluator turns each slot
+   into the weighted mean of its tokens' projected features, from its own copy, and runs the
+   frozen model.
+4. `bash scripts/evaluate_train.sh` scores every registered method on the visible split
+   (300 images, 2,100 questions) into `scoring/scores_train.json` and leaves that split's
+   pruner inputs in `data/downloads/pruner_inputs_train/` for offline CPU development.
+   `bash scripts/evaluate_test.sh` scores the hidden split (700 images, 4,898 questions) into
+   `scoring/scores_test.json`. Both need a GPU for the frozen models (about 5 and 10 minutes
+   on an H200 for five methods).
+
+The frozen weights and benchmark images are verified against pinned hashes. Accuracy with
+all 576 tokens on the hidden split: existence 0.916, counting 0.610, caption 0.883,
+absent 0.637.
+
+## Reference points
+
+The source paper reports average relative performance on nine benchmarks for LLaVA-1.5-7B at
+64 tokens (Table 1): 96.1% for its method, 95.7% for the strongest prior method. Those numbers
+are kept in `scoring/reference.json`; this environment's question set differs, so values are
+comparable in kind, not identical.
 
 ---
 
@@ -447,9 +548,19 @@ Run each pruning method on the same token benchmark with the same fixed token bu
 
 ---
 
+### Iteration 11: claude-opus-5.5 (hardener)
+- **Milestone**: `core_claim` | **Status**: done
+- Replaced the synthetic proxy with the paper's setting: a frozen LLaVA-1.5-7B answering COCO
+  val2017 questions from pruned CLIP-336 tokens at 64 and 32 tokens. Methods are pruner programs run
+  by the evaluator on hidden test inputs (CPU only, no LLM access, convex-combination outputs).
+- FSR 0.917 relative performance at 64 tokens on the hidden split (CDPruner 0.910, DivPrune 0.890,
+  random 0.831); all red-team shortcuts closed or reduced to failures. See `HARDENING.md`.
+
+---
+
 # Reproduction Milestones
 
 **Current: core_claim**
 
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `core_claim` (hardened gym on the paper's model and budget).
