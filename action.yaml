@@ -1,2 +1,8 @@
-action: done
-notes: "Audit complete: honest variants rank correctly, but exposed answers, non-finite vectors, mutable data and omitted methods beat or tie the reference; 27 cases recorded in REDTEAM.md."
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
+gpus: 0
+test: false
+milestone: core_claim
+notes: ""
