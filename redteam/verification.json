@@ -1,0 +1,125 @@
+{
+  "cases": 27,
+  "shortcut_cases": 20,
+  "successful_hidden_commands": 25,
+  "expected_empty_output_failures": 2,
+  "all_hidden_commands_default_no_arguments": true,
+  "evaluator_hashes_unchanged": true,
+  "protected_tracked_directories_match_initial_commit": true,
+  "temporary_job_runner_restored_with_git": true,
+  "data_and_scoring_snapshots_restored": true,
+  "source_syntax_and_report_links_valid": true,
+  "reference_seeds_byte_identical": true,
+  "failed_stale_scores_excluded_from_rank": true,
+  "scope_note": "Required action.yaml completion signal excepted. Pre-existing system-managed README.md, manifest.json and trajectory changes excluded. Generated job logs archived under redteam/job and original jobs path restored with git.",
+  "runs": {
+    "reference_seed_0": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "reference_seed_1": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "reference_seed_2": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "better_neighbor_refine": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "weaker_no_scan": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "weaker_no_refine": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "simple_random": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_probe_copy": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_probe_copy_two": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_fixed_positions": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_label_indices": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_bruteforce_probes": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_nan_vectors": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_infinite_vectors": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_change_probe": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_reduce_test": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_one_query": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_copy_input": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_zero_vectors": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_empty_dimensions": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_empty_tokens": {
+      "exit_code": 1,
+      "fresh_scores": false
+    },
+    "shortcut_forged_scores": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_stale_scores": {
+      "exit_code": 1,
+      "fresh_scores": false
+    },
+    "shortcut_omit_failing_method": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_unlisted_method": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_move_baseline": {
+      "exit_code": 0,
+      "fresh_scores": true
+    },
+    "shortcut_replay_reference": {
+      "exit_code": 0,
+      "fresh_scores": true
+    }
+  }
+}

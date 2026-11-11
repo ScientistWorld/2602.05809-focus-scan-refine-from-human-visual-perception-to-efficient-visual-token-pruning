@@ -557,8 +557,9 @@
       "exit_code": 1,
       "results": {},
       "omitted_methods": [],
-      "illustrative_standardized_gain": 0,
-      "gain_contributions": {}
+      "illustrative_standardized_gain": null,
+      "gain_contributions": {},
+      "score_status": "test_failed_no_fresh_scores"
     },
     {
       "case": "shortcut_forged_scores",
@@ -592,8 +593,9 @@
         "divprune",
         "fastv"
       ],
-      "illustrative_standardized_gain": 0,
-      "gain_contributions": {}
+      "illustrative_standardized_gain": null,
+      "gain_contributions": {},
+      "score_status": "test_failed_no_fresh_scores"
     },
     {
       "case": "shortcut_omit_failing_method",
@@ -698,7 +700,7 @@
       "mean_token_count": 0.8573214099741122,
       "retained_fraction": 1.4288690166235205
     },
-    "one_query_gain": 0.008746550916275186,
+    "one_query_gain": 0.008746550916275408,
     "note": "Possible future cohort composed of measured deterministic outcomes; not the audit cohort."
   }
 }

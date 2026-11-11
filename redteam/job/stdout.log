@@ -1,0 +1,39 @@
+[hive] This stdout log is managed by Hive.
+[hive] job_id: 4e0f398a
+[hive] host: node
+[hive] node_id: 574b0d5e4fdd4e8eef0df25169cebea7214addebbec73e24fd637676
+[hive] user: nexus/user (remote)
+[hive] resource: gpu-cpu-test
+[hive] gpus: 0
+[hive] cpus: 1
+[hive] workdir: /home/user
+[hive] timeout_sec: 21600
+[hive] started_at: 2026-11-11 09:49:29 EST
+[hive] command: apptainer exec --containall --cleanenv --env HF_HOME=/home/user/shared/hf_cache --env TRANSFORMERS_CACHE=/home/user/shared/hf_cache --env HF_DATASETS_CACHE=/home/user/shared/hf_cache/datasets --env TORCH_HOME=/home/user/shared/hf_cache/torch --bind /home/user/scratch/AgentWorkspaces/workspaces/2602.05809:/home/user --overlay /home/user/scratch/AgentWorkspaces/workspaces/2602.05809/environment/overlay.img:ro --bind /home/user/scratch/AgentWorkspaces/shared/datasets:/home/user/shared/datasets:ro --bind /home/user/scratch/AgentWorkspaces/shared/models:/home/user/shared/models:ro --bind /home/user/scratch/AgentWorkspaces/shared/hf_cache:/home/user/shared/hf_cache /home/user/scratch/AgentWorkspaces/workspaces/2602.05809/environment/container.sif bash -c 'cd /home/user && bash /home/user/scripts/run.sh'
+reference_seed_0 test_exit= 0 fsr= {'context_retained': 0.780811, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.875822, 'retained_fraction': 0.25, 'sample_count': 120}
+reference_seed_1 test_exit= 0 fsr= {'context_retained': 0.780811, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.875822, 'retained_fraction': 0.25, 'sample_count': 120}
+reference_seed_2 test_exit= 0 fsr= {'context_retained': 0.780811, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.875822, 'retained_fraction': 0.25, 'sample_count': 120}
+better_neighbor_refine test_exit= 0 fsr= {'context_retained': 0.921849, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.946341, 'retained_fraction': 0.25, 'sample_count': 120}
+weaker_no_scan test_exit= 0 fsr= {'context_retained': 0.535024, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.752928, 'retained_fraction': 0.25, 'sample_count': 120}
+weaker_no_refine test_exit= 0 fsr= {'context_retained': 0.778589, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.874711, 'retained_fraction': 0.25, 'sample_count': 120}
+simple_random test_exit= 0 fsr= {'context_retained': 0.731285, 'evidence_retained': 0.543009, 'mean_token_count': 32.0, 'performance_retained': 0.637147, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_probe_copy test_exit= 0 fsr= {'context_retained': 1.0, 'evidence_retained': 1.0, 'mean_token_count': 32.0, 'performance_retained': 1.0, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_probe_copy_two test_exit= 0 fsr= {'context_retained': 1.0, 'evidence_retained': 1.0, 'mean_token_count': 2.0, 'performance_retained': 1.0, 'retained_fraction': 0.015625, 'sample_count': 120}
+shortcut_fixed_positions test_exit= 0 fsr= {'context_retained': 0.970646, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.970739, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_label_indices test_exit= 0 fsr= {'context_retained': 0.970646, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.970739, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_bruteforce_probes test_exit= 0 fsr= {'context_retained': 0.970646, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.970739, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_nan_vectors test_exit= 0 fsr= {'context_retained': 1.0, 'evidence_retained': 1.0, 'mean_token_count': 32.0, 'performance_retained': 1.0, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_infinite_vectors test_exit= 0 fsr= {'context_retained': 1.0, 'evidence_retained': 1.0, 'mean_token_count': 32.0, 'performance_retained': 1.0, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_change_probe test_exit= 0 fsr= {'context_retained': 0.970832, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.970832, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_reduce_test test_exit= 0 fsr= {'context_retained': 0.985284, 'evidence_retained': 0.986963, 'mean_token_count': 32.0, 'performance_retained': 0.986123, 'retained_fraction': 0.25, 'sample_count': 1}
+shortcut_one_query test_exit= 0 fsr= {'context_retained': 0.0, 'evidence_retained': 1.0, 'mean_token_count': 1.0, 'performance_retained': 0.5, 'retained_fraction': 0.007812, 'sample_count': 120}
+shortcut_copy_input test_exit= 0 fsr= {'context_retained': 0.970646, 'evidence_retained': 0.970832, 'mean_token_count': 128.0, 'performance_retained': 0.970739, 'retained_fraction': 1.0, 'sample_count': 120}
+shortcut_zero_vectors test_exit= 0 fsr= {'context_retained': 0.0, 'evidence_retained': 0.0, 'mean_token_count': 32.0, 'performance_retained': 0.0, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_empty_dimensions test_exit= 0 fsr= {'context_retained': 0.0, 'evidence_retained': 0.0, 'mean_token_count': 32.0, 'performance_retained': 0.0, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_empty_tokens test_exit= 1 fsr= {'context_retained': 0.780811, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.875822, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_forged_scores test_exit= 0 fsr= {'context_retained': 0.0, 'evidence_retained': 0.0, 'mean_token_count': 32.0, 'performance_retained': 0.0, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_stale_scores test_exit= 1 fsr= {'performance_retained': 1.0, 'evidence_retained': 1.0, 'context_retained': 1.0, 'mean_token_count': 1.0, 'retained_fraction': 0.007812, 'sample_count': 120, 'success': True, 'timing': 0.0, 'unused_flag': None}
+shortcut_omit_failing_method test_exit= 0 fsr= None
+shortcut_unlisted_method test_exit= 0 fsr= {'context_retained': 0.780811, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.875822, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_move_baseline test_exit= 0 fsr= {'context_retained': 0.535024, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.752928, 'retained_fraction': 0.25, 'sample_count': 120}
+shortcut_replay_reference test_exit= 0 fsr= {'context_retained': 0.780811, 'evidence_retained': 0.970832, 'mean_token_count': 32.0, 'performance_retained': 0.875822, 'retained_fraction': 0.25, 'sample_count': 120}

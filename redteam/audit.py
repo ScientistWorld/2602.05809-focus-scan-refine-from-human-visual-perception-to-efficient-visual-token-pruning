@@ -201,6 +201,11 @@ def summarize():
     cohort = [r for r in rows if r["exit_code"] == 0 and r["results"]]
     scales = {m: statistics.pstdev([r["results"][m] for r in cohort]) for m in metrics}
     for record in rows:
+        if record["exit_code"] != 0:
+            record["illustrative_standardized_gain"] = None
+            record["gain_contributions"] = {}
+            record["score_status"] = "test_failed_no_fresh_scores"
+            continue
         contributions = {}
         for metric, definition in metrics.items():
             value = record["results"].get(metric)

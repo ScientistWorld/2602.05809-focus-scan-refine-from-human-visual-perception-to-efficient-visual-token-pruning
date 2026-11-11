@@ -1,4 +1,2 @@
-action: submit
-gpus: 0
-test: true
-notes: "Audit: one CPU job runs 27 quality, seed, brute-force and shortcut cases through the default hidden test; all per-case changes restored."
+action: done
+notes: "Audit complete: honest variants rank correctly, but exposed answers, non-finite vectors, mutable data and omitted methods beat or tie the reference; 27 cases recorded in REDTEAM.md."
