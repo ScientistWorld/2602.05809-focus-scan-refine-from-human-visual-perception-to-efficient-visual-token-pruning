@@ -1,43 +1,58 @@
 #!/bin/bash
-# Job script (runs inside the gym container, workspace at /home/user, no internet).
-# Current content: SMOKE TEST of the rebuilt LLaVA-based pipeline on a few images.
+# Job script (gym container, workspace at /home/user, no internet, 1 GPU).
+# Hardening run: reference + baselines through the official scripts, then FSR variants
+# and shortcut pruners through the same evaluators. Stages are resumable.
+# `bash scripts/reproduce.sh` alone reproduces the reference end to end.
 
 set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "${REPO_ROOT}"
+H=checkpoints/hardening
+mkdir -p "$H"
 
-echo "== environment"
-nvidia-smi || true
-nproc; free -g; df -h /home/user | tail -1
-python -c "import torch, transformers, numpy; print('torch', torch.__version__, 'transformers', transformers.__version__, 'numpy', numpy.__version__, 'cuda', torch.cuda.is_available(), torch.cuda.device_count())"
-ls -laL data/downloads/llava-v1.5-7b data/downloads/clip-vit-large-patch14-336 | head -30
-ls data/downloads/coco/val2017 | wc -l
+stage() {
+    local name="$1"; shift
+    if [ -f "$H/$name.done" ]; then echo "== skip $name (done)"; return 0; fi
+    echo "== stage $name  $(date +%T)"
+    local t0=$SECONDS
+    if "$@"; then
+        touch "$H/$name.done"
+        echo "== stage $name finished in $((SECONDS - t0)) s"
+    else
+        echo "== stage $name FAILED"
+    fi
+}
 
-echo "== registries"
-rm -rf checkpoints/pruners checkpoints/smoke
+nvidia-smi --query-gpu=name,memory.total --format=csv || true
+bash scripts/download.sh
+
+# registries: reference + baselines (official), variants and shortcuts (hardening)
+rm -rf checkpoints/pruners
 bash scripts/method.sh
 bash scripts/baseline.sh
-python redteam/hardening/register.py variants checkpoints/dev_pruners
-python redteam/hardening/register.py shortcuts checkpoints/shortcut_pruners
-mkdir -p checkpoints/smoke
+python redteam/hardening/register.py variants "$H/dev_pruners"
+python redteam/hardening/register.py shortcuts "$H/shortcut_pruners"
 
-echo "== smoke: train split, all variants, 6 images"
-time python eval/train/evaluate.py --max-images 6 --pruners-dir checkpoints/dev_pruners \
-    --output checkpoints/smoke/scores_train_dev.json --save-answers checkpoints/smoke/train_dev \
-    --inputs-dir checkpoints/smoke/inputs_train
-echo "exit $?"
-python -c "import json; d=json.load(open('checkpoints/smoke/scores_train_dev.json')); print(json.dumps(d, indent=1)[:6000])"
-head -40 checkpoints/smoke/train_dev/_full_tokens.jsonl
-head -12 checkpoints/smoke/train_dev/fsr__64.jsonl
-for f in checkpoints/eval_logs/train/fsr_64.log checkpoints/eval_logs/train/fsr_dpp_scan_64.log checkpoints/eval_logs/train/cdpruner_64.log; do echo "--- $f"; cat $f; done
-
-echo "== smoke: test split, shortcuts, 6 images"
-time python eval/test/evaluate.py --max-images 6 --pruners-dir checkpoints/shortcut_pruners \
-    --output checkpoints/smoke/scores_test_shortcuts.json --save-answers checkpoints/smoke/test_sc
-echo "exit $?"
-python -c "import json; d=json.load(open('checkpoints/smoke/scores_test_shortcuts.json')); print(json.dumps(d, indent=1)[:8000])"
+stage official_train bash -c "bash scripts/evaluate_train.sh && cp scoring/scores_train.json scoring/scores.json"
+stage official_test bash scripts/evaluate_test.sh
+stage dev_test python eval/test/evaluate.py --pruners-dir "$H/dev_pruners" \
+    --output "$H/dev_scores_test.json" --save-answers "$H/answers_test"
+for k in 64 32; do for m in fsr fsr_allmass fsr_rho05 fsr_rho07; do
+    echo "--- test $m K=$k: $(tail -1 checkpoints/eval_logs/test/${m}_${k}.log 2>/dev/null)"; done; done
+stage dev_train python eval/train/evaluate.py --pruners-dir "$H/dev_pruners" \
+    --output "$H/dev_scores_train.json" --save-answers "$H/answers_train"
+# shortcut pruners through the hidden test; the forging case writes into scoring/, so the
+# official score files are restored afterwards (the evaluator itself overwrites its output).
+stage shortcuts_test bash -c "mkdir -p $H/scoring_backup && cp scoring/*.json $H/scoring_backup/ && \
+    python eval/test/evaluate.py --pruners-dir $H/shortcut_pruners --output $H/shortcut_scores_test.json; \
+    rc=\$?; cp $H/scoring_backup/*.json scoring/; exit \$rc"
 cat checkpoints/hardening_probe_64.json 2>/dev/null
-for f in checkpoints/eval_logs/test/sc_llm_search_64.log checkpoints/eval_logs/test/sc_tamper_inputs_64.log; do echo "--- $f"; tail -20 $f; done
-ls -la checkpoints scoring
-echo "== done"
+
+echo "== analysis"
+python redteam/hardening/analyze.py "$H/answers_test" --json "$H/analysis_test.json"
+python redteam/hardening/analyze.py "$H/answers_train" --json "$H/analysis_train.json"
+python -c "import json; d=json.load(open('$H/shortcut_scores_test.json'))['experiments']; [print(k, v, d['_diagnostics'].get(k, {}).get('reason', '')[:160]) for k, v in d['token_pruning_core']['results'].items()]"
+cat scoring/scores_test.json
+python validate.py --post-design --compare || true
+echo "== done $(date +%T)"

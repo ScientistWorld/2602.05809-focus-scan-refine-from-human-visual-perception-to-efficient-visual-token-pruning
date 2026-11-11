@@ -1,6 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 action: submit
 gpus: 1
-test: true
+test: false
 milestone: core_claim
-notes: "Smoke test of the rebuilt LLaVA-1.5-7B token-pruning evaluator (6 images per split, all variants and shortcuts)."
+notes: "Hardening run on rebuilt LLaVA-1.5-7B gym: reference+baselines via official train/test scripts, 17 FSR variants/baselines with saved answers, 12 shortcut pruners through the hidden test."

@@ -29,6 +29,8 @@ def main() -> None:
     parser.add_argument("--no-scan", action="store_true", help="ablation: Focus ranking fills the whole budget")
     parser.add_argument("--relevance-sign", choices=["neg", "pos"], default="neg")
     parser.add_argument("--refine-weights", choices=["priority", "uniform"], default="priority")
+    parser.add_argument("--focus-mass", choices=["budget", "all"], default="budget",
+                        help="mass in Eq. 4: over the K top-priority candidates (default) or all N tokens")
     parser.add_argument("--scan-mode", choices=["fps", "dpp"], default="fps",
                         help="fps = the paper's conditional farthest-point sampling; dpp = variant")
     args = parser.parse_args()
@@ -49,14 +51,15 @@ def main() -> None:
             res = focus_scan_refine(
                 cos_img, rel, sal, args.budget, alpha=args.alpha, beta=args.beta, rho=args.rho,
                 kappa=args.kappa, scan=not args.no_scan, refine_weights=args.refine_weights,
-                scan_mode=args.scan_mode,
+                scan_mode=args.scan_mode, focus_mass=args.focus_mass,
             )
             records[inp.queries[pos]["qid"]] = res.slots
             focus_sizes.append(len(res.focus))
     write_selections(args.output, records)
     fs = np.asarray(focus_sizes)
     print(f"FSR K={args.budget}: {len(records)} queries, focus size mean {fs.mean():.2f} "
-          f"median {np.median(fs):.0f} min {fs.min()} max {fs.max()}")
+          f"median {np.median(fs):.0f} min {fs.min()} max {fs.max()}; "
+          f"fraction of questions with Focus = whole budget {np.mean(fs == args.budget):.3f}")
 
 
 if __name__ == "__main__":

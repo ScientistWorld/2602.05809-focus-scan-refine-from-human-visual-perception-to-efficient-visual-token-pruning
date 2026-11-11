@@ -8,7 +8,16 @@ Operates on one image/query pair of LLaVA-1.5 visual tokens:
   joint-space embedding and the CLIP text embedding of the instruction,
   computed as in Zhang et al. (2025b, CDPruner), which the paper cites for
   this score; both min-max normalised; priority phi = r^alpha * s^beta; keep
-  the smallest top-phi prefix holding a fraction rho of the total mass.
+  the smallest top-phi prefix holding a fraction rho of the information mass.
+
+  Mass reading. Eq. 4 writes the mass over all N tokens. On LLaVA-1.5's
+  CLIP-L/336 features the [CLS] attention is spread out (about 250 of 576
+  tokens hold 90% of it), so rho=0.9 of the all-token mass needs more tokens
+  than any aggressive budget: K_F is clamped to K for every question and Scan
+  and Refine never run, contradicting the paper's dynamic split (Fig. 1) and
+  its Scan/Refine ablations. The default ``focus_mass="budget"`` therefore
+  takes the mass over the K highest-priority candidates (the mass the budget
+  can hold); ``focus_mass="all"`` is the literal all-token reading.
 * Scan   (Sec. 3.3, Eq. 5): conditional farthest-point sampling in cosine
   distance, initialised with the Focus set, for the remaining K - K_F slots.
 * Refine (Sec. 3.4, Eq. 8-9): each discarded token is assigned to its most
@@ -73,6 +82,7 @@ def focus_scan_refine(
     scan: bool = True,
     refine_weights: str = "priority",
     scan_mode: str = "fps",
+    focus_mass: str = "budget",
 ) -> FSRResult:
     n = cosine.shape[0]
     if not 1 <= budget <= n:
@@ -84,7 +94,7 @@ def focus_scan_refine(
 
     # Focus: minimum prefix of the phi-sorted tokens holding rho of the mass (Eq. 4)
     order = np.argsort(-phi, kind="stable")
-    total = float(phi.sum())
+    total = float(phi.sum()) if focus_mass == "all" else float(phi[order[:budget]].sum())
     if scan and total > EPS:
         cum = np.cumsum(phi[order])
         k_f = int(np.searchsorted(cum, rho * total, side="left")) + 1
