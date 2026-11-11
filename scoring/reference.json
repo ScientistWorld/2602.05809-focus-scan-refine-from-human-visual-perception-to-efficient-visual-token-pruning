@@ -1,95 +1,73 @@
 {
   "experiments": {
     "token_pruning_core": {
-      "description": "Core aggressive visual-token pruning claim. Paper reference values are from the LLaVA-1.5-7B 64-retained-token setting in Table 1; evidence/context component metrics are gym-only diagnostics with no paper reference values.",
+      "description": "Training-free visual-token pruning for a frozen LLaVA-1.5-7B (576 CLIP ViT-L/14-336 tokens per image). Scored quantity: accuracy of the frozen model with the pruned tokens divided by its accuracy with all 576 tokens, averaged over question families (the paper's 'Avg.' relative performance). Budgets: 64 tokens (the paper's most aggressive LLaVA-1.5 setting, 88.9% reduction) and 32 tokens (more aggressive). Benchmark: COCO val2017 questions (POPE-protocol existence, counting, caption matching, absent-object choice) instead of the paper's nine benchmarks; same model, budget and metric definition. Paper values below are Table 1 (LLaVA-1.5-7B, 64 tokens, Avg. over VQAv2/GQA/SQA/TextVQA/POPE/MME/MMB/MMB-CN/MM-Vet); the paper has no 32-token LLaVA-1.5 numbers and no local/global split.",
       "weight": 1.0,
       "primary_metric": "performance_retained",
       "metrics": {
         "performance_retained": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Headline retained-performance score combining query evidence and global-context preservation under the compressed-token budget."
+          "description": "64-token budget: mean over the four question families of (accuracy with pruned tokens) / (accuracy with all 576 tokens) of the same frozen model."
         },
-        "evidence_retained": {
+        "performance_retained_32": {
+          "higher_is_better": true,
+          "coefficient": 0.5,
+          "description": "Same relative performance at the 32-token budget (94.4% reduction), where pruning methods diverge most."
+        },
+        "local_evidence_retained": {
           "higher_is_better": true,
           "coefficient": 0.25,
-          "description": "Mean query-evidence similarity retained by the compressed tokens; this catches methods that preserve global context while losing the local evidence needed for the answer."
+          "description": "64-token relative performance on the families answered from specific objects (existence, counting)."
         },
-        "context_retained": {
+        "global_context_retained": {
           "higher_is_better": true,
-          "coefficient": 0.4,
-          "description": "Mean global-context similarity retained by the compressed tokens; this catches relevance-only shortcuts that keep salient evidence but drop low-saliency contextual information."
-        },
-        "mean_token_count": {
-          "higher_is_better": false,
-          "coefficient": -0.3,
-          "description": "Mean number of retained visual tokens, used as a machine-independent compression-cost constraint."
-        },
-        "retained_fraction": {
-          "higher_is_better": false,
-          "coefficient": -0.5,
-          "description": "Fraction of the original visual tokens retained, penalizing methods that improve retention by relaxing the compression budget."
-        },
-        "sample_count": {
-          "higher_is_better": true,
-          "coefficient": 0.0,
-          "description": "Number of evaluated samples; included for auditability and not used for ranking."
+          "coefficient": 0.25,
+          "description": "64-token relative performance on the families that need whole-scene coverage (caption matching, absent-object choice)."
         }
       },
       "results": {
-        "fastv": {
-          "type": "baseline",
-          "performance_retained": 0.72,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "sparsevlm": {
-          "type": "baseline",
-          "performance_retained": 0.86,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "dart": {
-          "type": "baseline",
-          "performance_retained": 0.908,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "visionzip": {
-          "type": "baseline",
-          "performance_retained": 0.927,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "divprune": {
-          "type": "baseline",
-          "performance_retained": 0.933,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "holov": {
-          "type": "baseline",
-          "performance_retained": 0.929,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
-        },
-        "vispruner": {
-          "type": "baseline",
-          "performance_retained": 0.935,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "fsr": {
+          "type": "proposed",
+          "performance_retained": 0.961
         },
         "cdpruner": {
           "type": "baseline",
-          "performance_retained": 0.957,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+          "performance_retained": 0.957
         },
-        "fsr": {
-          "type": "proposed",
-          "performance_retained": 0.961,
-          "mean_token_count": 64,
-          "retained_fraction": 0.111111
+        "divprune": {
+          "type": "baseline",
+          "performance_retained": 0.933
+        },
+        "cls_topk": {
+          "type": "baseline"
+        },
+        "random": {
+          "type": "baseline"
+        },
+        "vispruner": {
+          "type": "baseline",
+          "performance_retained": 0.935
+        },
+        "holov": {
+          "type": "baseline",
+          "performance_retained": 0.929
+        },
+        "visionzip": {
+          "type": "baseline",
+          "performance_retained": 0.927
+        },
+        "dart": {
+          "type": "baseline",
+          "performance_retained": 0.908
+        },
+        "sparsevlm": {
+          "type": "baseline",
+          "performance_retained": 0.86
+        },
+        "fastv": {
+          "type": "baseline",
+          "performance_retained": 0.72
         }
       }
     }
