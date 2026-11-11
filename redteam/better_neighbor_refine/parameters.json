@@ -1,0 +1,395 @@
+{
+  "selected": {
+    "parameters": {
+      "rho": 0.5,
+      "kappa": 0.0,
+      "neighbors": 4
+    },
+    "train_objective": 0.9482916092131835
+  },
+  "trials": [
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 0.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8801392877180884
+    },
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 1.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8802147317227192
+    },
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 3.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8999843166351025
+    },
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 0.0,
+        "neighbors": 2
+      },
+      "train_objective": 0.9380171199652375
+    },
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 0.0,
+        "neighbors": 3
+      },
+      "train_objective": 0.9446019734694953
+    },
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 0.0,
+        "neighbors": 4
+      },
+      "train_objective": 0.9482916092131835
+    },
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 0.0,
+        "neighbors": 5
+      },
+      "train_objective": 0.9398560984893286
+    },
+    {
+      "parameters": {
+        "rho": 0.5,
+        "kappa": 0.0,
+        "neighbors": 7
+      },
+      "train_objective": 0.9253390107246204
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 0.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8801392877180884
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 1.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8802147317227192
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 3.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8999843166351025
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 0.0,
+        "neighbors": 2
+      },
+      "train_objective": 0.9380171199652375
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 0.0,
+        "neighbors": 3
+      },
+      "train_objective": 0.9446019734694953
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 0.0,
+        "neighbors": 4
+      },
+      "train_objective": 0.9482916092131835
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 0.0,
+        "neighbors": 5
+      },
+      "train_objective": 0.9398560984893286
+    },
+    {
+      "parameters": {
+        "rho": 0.7,
+        "kappa": 0.0,
+        "neighbors": 7
+      },
+      "train_objective": 0.9253390107246204
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 0.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8801392877180884
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 1.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8802147317227192
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 3.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.8999843166351025
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 0.0,
+        "neighbors": 2
+      },
+      "train_objective": 0.9380171199652375
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 0.0,
+        "neighbors": 3
+      },
+      "train_objective": 0.9446019734694953
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 0.0,
+        "neighbors": 4
+      },
+      "train_objective": 0.9482916092131835
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 0.0,
+        "neighbors": 5
+      },
+      "train_objective": 0.9398560984893286
+    },
+    {
+      "parameters": {
+        "rho": 0.9,
+        "kappa": 0.0,
+        "neighbors": 7
+      },
+      "train_objective": 0.9253390107246204
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 0.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.7537078951059218
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 1.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.7537078951059218
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 3.0,
+        "neighbors": 1
+      },
+      "train_objective": 0.7537078951059218
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 0.0,
+        "neighbors": 2
+      },
+      "train_objective": 0.7537078951059218
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 0.0,
+        "neighbors": 3
+      },
+      "train_objective": 0.7537078951059218
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 0.0,
+        "neighbors": 4
+      },
+      "train_objective": 0.7537078951059218
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 0.0,
+        "neighbors": 5
+      },
+      "train_objective": 0.7537078951059218
+    },
+    {
+      "parameters": {
+        "rho": 1.0,
+        "kappa": 0.0,
+        "neighbors": 7
+      },
+      "train_objective": 0.7537078951059218
+    }
+  ],
+  "train_ids": [
+    "sample_0203",
+    "sample_0153",
+    "sample_0159",
+    "sample_0191",
+    "sample_0229",
+    "sample_0141",
+    "sample_0065",
+    "sample_0198",
+    "sample_0092",
+    "sample_0110",
+    "sample_0188",
+    "sample_0083",
+    "sample_0073",
+    "sample_0205",
+    "sample_0129",
+    "sample_0204",
+    "sample_0207",
+    "sample_0002",
+    "sample_0125",
+    "sample_0124",
+    "sample_0138",
+    "sample_0186",
+    "sample_0109",
+    "sample_0133",
+    "sample_0042",
+    "sample_0208",
+    "sample_0228",
+    "sample_0113",
+    "sample_0063",
+    "sample_0181",
+    "sample_0027",
+    "sample_0048",
+    "sample_0029",
+    "sample_0183",
+    "sample_0089",
+    "sample_0114",
+    "sample_0232",
+    "sample_0062",
+    "sample_0093",
+    "sample_0010",
+    "sample_0037",
+    "sample_0031",
+    "sample_0192",
+    "sample_0090",
+    "sample_0102",
+    "sample_0047",
+    "sample_0060",
+    "sample_0020",
+    "sample_0026",
+    "sample_0226",
+    "sample_0032",
+    "sample_0227",
+    "sample_0179",
+    "sample_0082",
+    "sample_0225",
+    "sample_0197",
+    "sample_0034",
+    "sample_0167",
+    "sample_0053",
+    "sample_0015",
+    "sample_0051",
+    "sample_0166",
+    "sample_0220",
+    "sample_0094",
+    "sample_0004",
+    "sample_0044",
+    "sample_0117",
+    "sample_0152",
+    "sample_0157",
+    "sample_0105",
+    "sample_0218",
+    "sample_0209",
+    "sample_0080",
+    "sample_0196",
+    "sample_0016",
+    "sample_0030",
+    "sample_0217",
+    "sample_0165",
+    "sample_0189",
+    "sample_0041",
+    "sample_0235",
+    "sample_0130",
+    "sample_0187",
+    "sample_0001",
+    "sample_0057",
+    "sample_0134",
+    "sample_0239",
+    "sample_0178",
+    "sample_0148",
+    "sample_0175",
+    "sample_0182",
+    "sample_0023",
+    "sample_0104",
+    "sample_0054",
+    "sample_0011",
+    "sample_0206",
+    "sample_0236",
+    "sample_0230",
+    "sample_0046",
+    "sample_0003",
+    "sample_0097",
+    "sample_0140",
+    "sample_0012",
+    "sample_0143",
+    "sample_0005",
+    "sample_0160",
+    "sample_0022",
+    "sample_0006",
+    "sample_0013",
+    "sample_0079",
+    "sample_0173",
+    "sample_0115",
+    "sample_0142",
+    "sample_0210",
+    "sample_0069",
+    "sample_0120",
+    "sample_0171",
+    "sample_0067",
+    "sample_0072",
+    "sample_0112"
+  ],
+  "inference_fields": [
+    "tokens",
+    "query_embedding",
+    "cls_attention"
+  ]
+}

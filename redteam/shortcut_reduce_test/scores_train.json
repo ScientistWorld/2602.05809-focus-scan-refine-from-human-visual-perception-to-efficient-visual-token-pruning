@@ -1,0 +1,40 @@
+{
+  "experiments": {
+    "token_pruning_core": {
+      "results": {
+        "cdpruner": {
+          "context_retained": 0.826341,
+          "evidence_retained": 0.983211,
+          "mean_token_count": 32.0,
+          "performance_retained": 0.904776,
+          "retained_fraction": 0.25,
+          "sample_count": 1
+        },
+        "divprune": {
+          "context_retained": 0.976963,
+          "evidence_retained": 0.983211,
+          "mean_token_count": 32.0,
+          "performance_retained": 0.980087,
+          "retained_fraction": 0.25,
+          "sample_count": 1
+        },
+        "fastv": {
+          "context_retained": 0.194002,
+          "evidence_retained": 0.983211,
+          "mean_token_count": 32.0,
+          "performance_retained": 0.588606,
+          "retained_fraction": 0.25,
+          "sample_count": 1
+        },
+        "fsr": {
+          "context_retained": 0.976963,
+          "evidence_retained": 0.983211,
+          "mean_token_count": 32.0,
+          "performance_retained": 0.980087,
+          "retained_fraction": 0.25,
+          "sample_count": 1
+        }
+      }
+    }
+  }
+}

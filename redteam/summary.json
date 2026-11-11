@@ -1,0 +1,704 @@
+{
+  "rank_definition": "sum(weight * abs(coefficient) * directed_delta / cohort_std)",
+  "normalization_note": "Illustrative audit cohort only; actual denominators depend on future attempts.",
+  "cohort": [
+    "reference_seed_0",
+    "reference_seed_1",
+    "reference_seed_2",
+    "better_neighbor_refine",
+    "weaker_no_scan",
+    "weaker_no_refine",
+    "simple_random",
+    "shortcut_probe_copy",
+    "shortcut_probe_copy_two",
+    "shortcut_fixed_positions",
+    "shortcut_label_indices",
+    "shortcut_bruteforce_probes",
+    "shortcut_nan_vectors",
+    "shortcut_infinite_vectors",
+    "shortcut_change_probe",
+    "shortcut_reduce_test",
+    "shortcut_one_query",
+    "shortcut_copy_input",
+    "shortcut_zero_vectors",
+    "shortcut_empty_dimensions",
+    "shortcut_forged_scores",
+    "shortcut_unlisted_method",
+    "shortcut_move_baseline",
+    "shortcut_replay_reference"
+  ],
+  "cohort_std": {
+    "performance_retained": 0.31793564249585166,
+    "evidence_retained": 0.3287716135207776,
+    "context_retained": 0.3477881718397849,
+    "mean_token_count": 21.433966748027665,
+    "retained_fraction": 0.1674528967677625,
+    "sample_count": 23.779331303092235
+  },
+  "reference": {
+    "context_retained": 0.780811,
+    "evidence_retained": 0.970832,
+    "mean_token_count": 32.0,
+    "performance_retained": 0.875822,
+    "retained_fraction": 0.25,
+    "sample_count": 120
+  },
+  "original_packaged_reference": {
+    "experiments": {
+      "token_pruning_core": {
+        "results": {
+          "cdpruner": {
+            "context_retained": 0.535024,
+            "evidence_retained": 0.970832,
+            "mean_token_count": 32.0,
+            "performance_retained": 0.752928,
+            "retained_fraction": 0.25,
+            "sample_count": 120
+          },
+          "divprune": {
+            "context_retained": 0.778589,
+            "evidence_retained": 0.970832,
+            "mean_token_count": 32.0,
+            "performance_retained": 0.874711,
+            "retained_fraction": 0.25,
+            "sample_count": 120
+          },
+          "fastv": {
+            "context_retained": 0.130592,
+            "evidence_retained": 0.970832,
+            "mean_token_count": 32.0,
+            "performance_retained": 0.550712,
+            "retained_fraction": 0.25,
+            "sample_count": 120
+          },
+          "fsr": {
+            "context_retained": 0.780811,
+            "evidence_retained": 0.970832,
+            "mean_token_count": 32.0,
+            "performance_retained": 0.875822,
+            "retained_fraction": 0.25,
+            "sample_count": 120
+          }
+        }
+      }
+    }
+  },
+  "seed_spread": {
+    "performance_retained": 0.0,
+    "evidence_retained": 0.0,
+    "context_retained": 0.0,
+    "mean_token_count": 0.0,
+    "retained_fraction": 0.0,
+    "sample_count": 0
+  },
+  "attempts": [
+    {
+      "case": "reference_seed_0",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.780811,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.875822,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.0,
+      "gain_contributions": {
+        "performance_retained": 0.0,
+        "evidence_retained": 0.0,
+        "context_retained": 0.0,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "reference_seed_1",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.780811,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.875822,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.0,
+      "gain_contributions": {
+        "performance_retained": 0.0,
+        "evidence_retained": 0.0,
+        "context_retained": 0.0,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "reference_seed_2",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.780811,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.875822,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.0,
+      "gain_contributions": {
+        "performance_retained": 0.0,
+        "evidence_retained": 0.0,
+        "context_retained": 0.0,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "better_neighbor_refine",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.921849,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.946341,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.38401413,
+      "gain_contributions": {
+        "performance_retained": 0.221802750539113,
+        "evidence_retained": 0.0,
+        "context_retained": 0.16221138200751897,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "weaker_no_scan",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.535024,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.752928,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -0.66922321,
+      "gain_contributions": {
+        "performance_retained": -0.38653734773257903,
+        "evidence_retained": 0.0,
+        "context_retained": -0.28268586444420696,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": true
+    },
+    {
+      "case": "weaker_no_refine",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.778589,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.874711,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -0.00605,
+      "gain_contributions": {
+        "performance_retained": -0.0034944178994164494,
+        "evidence_retained": 0.0,
+        "context_retained": -0.002555578573297384,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": true
+    },
+    {
+      "case": "simple_random",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.731285,
+        "evidence_retained": 0.543009,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.637147,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -1.13298265,
+      "gain_contributions": {
+        "performance_retained": -0.7507022431532323,
+        "evidence_retained": -0.3253192964399302,
+        "context_retained": -0.05696110910041547,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": true
+    },
+    {
+      "case": "shortcut_probe_copy",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 1.0,
+        "evidence_retained": 1.0,
+        "mean_token_count": 32.0,
+        "performance_retained": 1.0,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.66485026,
+      "gain_contributions": {
+        "performance_retained": 0.39057590091246297,
+        "evidence_retained": 0.022179530409912215,
+        "context_retained": 0.25209482983909354,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_probe_copy_two",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 1.0,
+        "evidence_retained": 1.0,
+        "mean_token_count": 2.0,
+        "performance_retained": 1.0,
+        "retained_fraction": 0.015625,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 1.7845682,
+      "gain_contributions": {
+        "performance_retained": 0.39057590091246297,
+        "evidence_retained": 0.022179530409912215,
+        "context_retained": 0.25209482983909354,
+        "mean_token_count": 0.41989427835741944,
+        "retained_fraction": 0.6998236654127595
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_fixed_positions",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.970646,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.970739,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.5168756,
+      "gain_contributions": {
+        "performance_retained": 0.2985415515381811,
+        "evidence_retained": 0.0,
+        "context_retained": 0.21833404971282466,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_label_indices",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.970646,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.970739,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.5168756,
+      "gain_contributions": {
+        "performance_retained": 0.2985415515381811,
+        "evidence_retained": 0.0,
+        "context_retained": 0.21833404971282466,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_bruteforce_probes",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.970646,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.970739,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.5168756,
+      "gain_contributions": {
+        "performance_retained": 0.2985415515381811,
+        "evidence_retained": 0.0,
+        "context_retained": 0.21833404971282466,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_nan_vectors",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 1.0,
+        "evidence_retained": 1.0,
+        "mean_token_count": 32.0,
+        "performance_retained": 1.0,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.66485026,
+      "gain_contributions": {
+        "performance_retained": 0.39057590091246297,
+        "evidence_retained": 0.022179530409912215,
+        "context_retained": 0.25209482983909354,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_infinite_vectors",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 1.0,
+        "evidence_retained": 1.0,
+        "mean_token_count": 32.0,
+        "performance_retained": 1.0,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.66485026,
+      "gain_contributions": {
+        "performance_retained": 0.39057590091246297,
+        "evidence_retained": 0.022179530409912215,
+        "context_retained": 0.25209482983909354,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_change_probe",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.970832,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.970832,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.51738204,
+      "gain_contributions": {
+        "performance_retained": 0.29883406356756526,
+        "evidence_retained": 0.0,
+        "context_retained": 0.21854797303174156,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_reduce_test",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.985284,
+        "evidence_retained": 0.986963,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.986123,
+        "retained_fraction": 0.25,
+        "sample_count": 1
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.5943644,
+      "gain_contributions": {
+        "performance_retained": 0.34692870272146087,
+        "evidence_retained": 0.012266113721965663,
+        "context_retained": 0.23516958488650883,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": true,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_one_query",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.0,
+        "evidence_retained": 1.0,
+        "mean_token_count": 1.0,
+        "performance_retained": 0.5,
+        "retained_fraction": 0.007812,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -0.90087706,
+      "gain_contributions": {
+        "performance_retained": -1.1820694183569043,
+        "evidence_retained": 0.022179530409912215,
+        "context_retained": -0.8980305406817519,
+        "mean_token_count": 0.43389075430266666,
+        "retained_fraction": 0.723152613883671
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_copy_input",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.970646,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 128.0,
+        "performance_retained": 0.970739,
+        "retained_fraction": 1.0,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -3.06622182,
+      "gain_contributions": {
+        "performance_retained": 0.2985415515381811,
+        "evidence_retained": 0.0,
+        "context_retained": 0.21833404971282466,
+        "mean_token_count": -1.343661690743742,
+        "retained_fraction": -2.2394357293208307
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_zero_vectors",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.0,
+        "evidence_retained": 0.0,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.0,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -4.39097203,
+      "gain_contributions": {
+        "performance_retained": -2.7547147376262715,
+        "evidence_retained": -0.7382267507856527,
+        "context_retained": -0.8980305406817519,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": true
+    },
+    {
+      "case": "shortcut_empty_dimensions",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.0,
+        "evidence_retained": 0.0,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.0,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -4.39097203,
+      "gain_contributions": {
+        "performance_retained": -2.7547147376262715,
+        "evidence_retained": -0.7382267507856527,
+        "context_retained": -0.8980305406817519,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": true
+    },
+    {
+      "case": "shortcut_empty_tokens",
+      "exit_code": 1,
+      "results": {},
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0,
+      "gain_contributions": {}
+    },
+    {
+      "case": "shortcut_forged_scores",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.0,
+        "evidence_retained": 0.0,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.0,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -4.39097203,
+      "gain_contributions": {
+        "performance_retained": -2.7547147376262715,
+        "evidence_retained": -0.7382267507856527,
+        "context_retained": -0.8980305406817519,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": true
+    },
+    {
+      "case": "shortcut_stale_scores",
+      "exit_code": 1,
+      "results": {},
+      "omitted_methods": [
+        "cdpruner",
+        "divprune",
+        "fastv"
+      ],
+      "illustrative_standardized_gain": 0,
+      "gain_contributions": {}
+    },
+    {
+      "case": "shortcut_omit_failing_method",
+      "exit_code": 0,
+      "results": {},
+      "omitted_methods": [
+        "fsr"
+      ],
+      "illustrative_standardized_gain": 0,
+      "gain_contributions": {}
+    },
+    {
+      "case": "shortcut_unlisted_method",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.780811,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.875822,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [
+        "shortcut_unlisted"
+      ],
+      "illustrative_standardized_gain": 0.0,
+      "gain_contributions": {
+        "performance_retained": 0.0,
+        "evidence_retained": 0.0,
+        "context_retained": 0.0,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": false
+    },
+    {
+      "case": "shortcut_move_baseline",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.535024,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.752928,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": -0.66922321,
+      "gain_contributions": {
+        "performance_retained": -0.38653734773257903,
+        "evidence_retained": 0.0,
+        "context_retained": -0.28268586444420696,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": true
+    },
+    {
+      "case": "shortcut_replay_reference",
+      "exit_code": 0,
+      "results": {
+        "context_retained": 0.780811,
+        "evidence_retained": 0.970832,
+        "mean_token_count": 32.0,
+        "performance_retained": 0.875822,
+        "retained_fraction": 0.25,
+        "sample_count": 120
+      },
+      "omitted_methods": [],
+      "illustrative_standardized_gain": 0.0,
+      "gain_contributions": {
+        "performance_retained": 0.0,
+        "evidence_retained": 0.0,
+        "context_retained": 0.0,
+        "mean_token_count": -0.0,
+        "retained_fraction": -0.0
+      },
+      "dominates_reference": false,
+      "dominated_by_reference": false
+    }
+  ],
+  "task_failure_normalization_witness": {
+    "population": {
+      "reference_seed_0": 1,
+      "shortcut_one_query": 1,
+      "shortcut_zero_vectors": 5
+    },
+    "standard_deviations": {
+      "performance_retained": 0.3265953951368136,
+      "evidence_retained": 0.44523382147196616,
+      "context_retained": 0.2732269336503252,
+      "mean_token_count": 10.84774028946836,
+      "retained_fraction": 0.08474814597502461,
+      "sample_count": 0.0
+    },
+    "gain_contributions": {
+      "performance_retained": -1.1507265736020709,
+      "evidence_retained": 0.01637791121953014,
+      "context_retained": -1.1430952132988166,
+      "mean_token_count": 0.8573214099741122,
+      "retained_fraction": 1.4288690166235205
+    },
+    "one_query_gain": 0.008746550916275186,
+    "note": "Possible future cohort composed of measured deterministic outcomes; not the audit cohort."
+  }
+}

@@ -1,0 +1,1 @@
+COMMAND: bash scripts/baseline.sh --budget 32 --methods fastv divprune cdpruner

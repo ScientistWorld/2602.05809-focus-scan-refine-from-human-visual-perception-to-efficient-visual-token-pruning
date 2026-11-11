@@ -1,0 +1,14 @@
+COMMAND: bash scripts/evaluate_test.sh
+Traceback (most recent call last):
+  File "/home/user/eval/test/evaluate.py", line 152, in <module>
+    main()
+  File "/home/user/eval/test/evaluate.py", line 140, in main
+    results = {
+              ^
+  File "/home/user/eval/test/evaluate.py", line 141, in <dictcomp>
+    method_name: score_file(data, files_by_method[method_name], sample_ids)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 87, in score_file
+    evidence = max(_dot(token, query) for token in compressed)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: max() arg is an empty sequence

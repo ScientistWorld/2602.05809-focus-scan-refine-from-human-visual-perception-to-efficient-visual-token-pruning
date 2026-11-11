@@ -1,0 +1,19 @@
+{
+  "experiments": {
+    "token_pruning_core": {
+      "results": {
+        "fsr": {
+          "performance_retained": 1.0,
+          "evidence_retained": 1.0,
+          "context_retained": 1.0,
+          "mean_token_count": 1.0,
+          "retained_fraction": 0.007812,
+          "sample_count": 120,
+          "success": true,
+          "timing": 0.0,
+          "unused_flag": null
+        }
+      }
+    }
+  }
+}

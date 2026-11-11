@@ -1,0 +1,44 @@
+{
+  "case": "shortcut_empty_tokens",
+  "candidate": {
+    "command": [
+      "/usr/local/bin/python",
+      "method/redteam_candidate.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.6511
+  },
+  "visible_train": null,
+  "hidden_test": {
+    "command": [
+      "bash",
+      "scripts/evaluate_test.sh"
+    ],
+    "exit_code": 1,
+    "seconds": 0.5119
+  },
+  "test_wrote_score_file": false,
+  "test_changed_score_content": false,
+  "methods_on_disk": [
+    "cdpruner",
+    "divprune",
+    "fastv",
+    "fsr"
+  ],
+  "methods_in_hidden_results": [
+    "cdpruner",
+    "divprune",
+    "fastv",
+    "fsr"
+  ],
+  "omitted_methods": [],
+  "fsr_artifact_sha256": "edeefed16043ce27788a4fb7055deb2f48ee00236dfdd958a4fe9007ea780415",
+  "data_sha256": "2bcfdd90ca9d1bd95ea4db41d2df9850ced8e1fd7feab5e50b7edf64856754c8",
+  "data_sample_count": 240,
+  "evaluator_hashes": {
+    "scripts/evaluate_test.sh": "b2642e9770ee8c76fdd0bc30fee10d968ac00bc9248835bc810afe03c1bac9b0",
+    "eval/test/evaluate.py": "16540dabc39e4beea6f6fa43a25b7d4eb8fb70644bf3b06589e292567bcb46e6",
+    "scripts/evaluate_train.sh": "374034be972afc6393a7bae80959c307c44caac98d632b6233879a21ce84415f",
+    "eval/train/evaluate.py": "7a0ac52f7fb13783d234982c0c1b035e87f9508ae6dc72397a97e789e008ee1f"
+  }
+}

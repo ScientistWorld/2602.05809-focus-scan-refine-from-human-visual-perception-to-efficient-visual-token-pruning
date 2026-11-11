@@ -1,0 +1,1 @@
+COMMAND: bash scripts/evaluate_train.sh
