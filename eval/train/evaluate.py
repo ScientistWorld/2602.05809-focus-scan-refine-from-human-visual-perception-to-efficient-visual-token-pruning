@@ -574,7 +574,6 @@ def evaluate(args) -> int:
     else:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dtype = torch.float16 if device.type == "cuda" else torch.float32
-    torch.manual_seed(0)
     log(f"{len(items)} questions, {len(methods)} registered methods, device={device}")
 
     llava = FrozenLLaVA(device, dtype)

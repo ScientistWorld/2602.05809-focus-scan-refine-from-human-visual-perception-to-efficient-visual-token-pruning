@@ -3,4 +3,4 @@ action: submit
 gpus: 1
 test: false
 milestone: core_claim
-notes: "Hardening run on rebuilt LLaVA-1.5-7B gym: reference+baselines via official train/test scripts, 17 FSR variants/baselines with saved answers, 12 shortcut pruners through the hidden test."
+notes: "Final run: reproduce reference + baselines from final code (official train/test), shortcut pruners incl. answer-reading through hidden test with answer-dir guard."

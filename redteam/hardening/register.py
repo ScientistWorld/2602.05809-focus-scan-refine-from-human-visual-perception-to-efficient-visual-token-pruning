@@ -37,7 +37,7 @@ VARIANTS = {
 
 SHORTCUTS = {f"sc_{c}": SC + [c] for c in (
     "keep_all", "empty", "nan_weights", "out_of_range", "partial", "crash", "vector_field",
-    "first_positions", "forge_scores", "tamper_inputs", "probe_env", "llm_search",
+    "first_positions", "forge_scores", "tamper_inputs", "probe_env", "llm_search", "read_answers",
 )}
 
 

@@ -344,6 +344,29 @@ def release_gpus(torch, blocks: list) -> None:
         torch.cuda.empty_cache()
 
 
+HIDDEN_DIR = Path(__file__).resolve().parent
+_HIDDEN_MODE = None
+
+
+def hide_answers() -> None:
+    """Make eval/test/ untraversable while a pruner runs (the answers are already in memory)."""
+    global _HIDDEN_MODE
+    try:
+        if _HIDDEN_MODE is None:
+            _HIDDEN_MODE = HIDDEN_DIR.stat().st_mode & 0o7777
+        os.chmod(HIDDEN_DIR, 0o000)
+    except OSError as exc:
+        log(f"  could not hide {HIDDEN_DIR}: {exc}")
+
+
+def unhide_answers() -> None:
+    if _HIDDEN_MODE is not None:
+        try:
+            os.chmod(HIDDEN_DIR, _HIDDEN_MODE)
+        except OSError as exc:
+            log(f"  could not restore {HIDDEN_DIR}: {exc}")
+
+
 def run_pruner(name: str, spec_path: Path, inputs_dir: Path, budget: int, out_path: Path,
                num_queries: int) -> None:
     try:
@@ -578,7 +601,6 @@ def evaluate(args) -> int:
     else:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dtype = torch.float16 if device.type == "cuda" else torch.float32
-    torch.manual_seed(0)
     log(f"{len(items)} questions, {len(methods)} registered methods, device={device}")
 
     llava = FrozenLLaVA(device, dtype)
@@ -633,9 +655,11 @@ def evaluate(args) -> int:
                     write_pruner_inputs(inputs_dir, visual, image_names, queries, text_embeds)
                     fingerprint = inputs_fingerprint(inputs_dir)
                 held = reserve_gpus(torch)
+                hide_answers()
                 try:
                     run_pruner(name, spec, inputs_dir, budget, sel_path, len(qids))
                 finally:
+                    unhide_answers()
                     release_gpus(torch, held)
                 sel = load_selection(sel_path, qids, budget)
                 jobs, n_slots = [], []
@@ -699,6 +723,7 @@ def main() -> None:
         log(f"EVALUATION ERROR: {exc} -- every registered method keeps its worst values")
         code = 1
     finally:
+        unhide_answers()
         inputs_dir = Path(args.inputs_dir)
         if inputs_dir.exists():
             for p in inputs_dir.iterdir():

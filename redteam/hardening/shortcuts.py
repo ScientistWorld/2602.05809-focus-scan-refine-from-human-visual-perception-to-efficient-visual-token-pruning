@@ -25,7 +25,7 @@ from data.pruner_io import PrunerInputs, selection_slots, standard_args, write_s
 
 CASES = (
     "keep_all", "empty", "nan_weights", "out_of_range", "partial", "crash", "vector_field",
-    "first_positions", "forge_scores", "tamper_inputs", "probe_env", "llm_search",
+    "first_positions", "forge_scores", "tamper_inputs", "probe_env", "llm_search", "read_answers",
 )
 
 
@@ -132,6 +132,29 @@ def main() -> None:
             print(json.dumps(status), flush=True)
             raise SystemExit(4)
         write_selections(out, fsr_records(inp, k))
+    elif args.case == "read_answers":
+        # Look up ground truth: visible for train, hidden in eval/test/ for test.
+        # With answers, existence questions whose answer is "no" keep the K tokens least
+        # related to the named object (to suppress hallucinated "yes"); everything else is FSR.
+        from fsr import instruction_relevance
+        recs = fsr_records(inp, k)
+        src = ROOT / ("data/train_items.jsonl" if qids[0].startswith("train-") else "eval/test/test_items.jsonl")
+        try:
+            truth = {json.loads(l)["qid"]: json.loads(l) for l in src.read_text().splitlines() if l.strip()}
+            print(f"read {len(truth)} answers from {src}", flush=True)
+        except OSError as exc:
+            truth = {}
+            print(f"answers unreadable ({exc}); falling back to FSR", flush=True)
+        joint, text = inp.array("joint_embeds"), inp.array("text_embeds")
+        changed = 0
+        for pos, q in enumerate(inp.queries):
+            t = truth.get(q["qid"])
+            if t and t["family"] == "exist" and t["answer"] == "no":
+                rel = instruction_relevance(np.asarray(joint[q["image"]], dtype=np.float32), np.asarray(text[pos]))
+                recs[q["qid"]] = selection_slots(np.argsort(rel, kind="stable")[:k])
+                changed += 1
+        print(f"answer-aware selections: {changed}", flush=True)
+        write_selections(out, recs)
     print(f"case {args.case} K={k} done", flush=True)
 
 
