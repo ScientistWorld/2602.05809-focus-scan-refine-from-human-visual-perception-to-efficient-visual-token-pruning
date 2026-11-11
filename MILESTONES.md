@@ -45,8 +45,3 @@
 
 ## Stop Justification
 - Completed at milestone `core_claim`.
-
-### [2026-11-11 17:30] - core_claim (iteration 11, hardening)
-- Rebuilt the test on the paper's own setting: a frozen LLaVA-1.5-7B (CLIP ViT-L/14-336, 576 tokens), 64- and 32-token budgets, COCO val2017 questions (POPE-protocol existence, counting, caption matching, absent object); 300 visible / 700 hidden images.
-- FSR (Focus, conditional FPS Scan, priority-weighted Refine; paper defaults) scores 0.917 relative performance at 64 tokens on the hidden split. It beats DivPrune 0.890, [CLS]-attention top-K 0.795 and random 0.831, and is level with CDPruner 0.910 (paper: 0.961 vs 0.957). At 32 tokens CDPruner leads (0.866 vs 0.838).
-- Every red-team shortcut now fails or ties; details in `HARDENING.md`.
